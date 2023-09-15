@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SubjectService.DBContexts;
 
@@ -11,9 +12,11 @@ using SubjectService.DBContexts;
 namespace SubjectService.Migrations
 {
     [DbContext(typeof(SubjectContext))]
-    partial class SubjectContextModelSnapshot : ModelSnapshot
+    [Migration("20230915112503_subjectdb")]
+    partial class subjectdb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

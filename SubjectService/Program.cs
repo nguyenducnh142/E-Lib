@@ -1,11 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using SubjectService.DBContexts;
+using SubjectService.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddDbContext<SubjectContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppConn")));
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

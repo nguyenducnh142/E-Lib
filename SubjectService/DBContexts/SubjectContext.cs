@@ -9,8 +9,17 @@ namespace SubjectService.DBContexts
         {
             
         }
+
+        [DbFunction(name:"SOUNDEX",IsBuiltIn =true)]
+        public string FuzzySearch(string subjectName)
+        {
+            throw new NotImplementedException();
+        }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<SubjectType> Types { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<LessonFile> LessonsFiles { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<SubjectNotification> SubjectNotifications { get; set; }
     }
 }
