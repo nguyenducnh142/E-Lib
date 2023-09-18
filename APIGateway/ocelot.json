@@ -1,16 +1,16 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/products",
+      "DownstreamPathTemplate": "/api/Student/AllSubject",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7295
+          "Port": 7063
         }
       ],
-      "UpstreamPathTemplate": "/products",
-      "UpstreamHttpMethod": ["Get"]
+      "UpstreamPathTemplate": "/student/allsubjects",
+      "UpstreamHttpMethod": [ "Get" ]
     }
   ]
 }
