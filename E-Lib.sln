@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubjectService", "SubjectService\SubjectService.csproj", "{884F6F1B-E14A-4DCC-8377-BC7596F28A33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamService", "ExamService\ExamService.csproj", "{33E8AFF0-16AB-423A-8F49-277BC8A010FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelpService", "ExamService\HelpService.csproj", "{33E8AFF0-16AB-423A-8F49-277BC8A010FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIGateway", "APIGateway\APIGateway.csproj", "{079060A3-27C0-4D30-A732-C9854429B526}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{33E8AFF0-16AB-423A-8F49-277BC8A010FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33E8AFF0-16AB-423A-8F49-277BC8A010FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33E8AFF0-16AB-423A-8F49-277BC8A010FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{079060A3-27C0-4D30-A732-C9854429B526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{079060A3-27C0-4D30-A732-C9854429B526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{079060A3-27C0-4D30-A732-C9854429B526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{079060A3-27C0-4D30-A732-C9854429B526}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

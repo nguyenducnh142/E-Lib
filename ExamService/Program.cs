@@ -1,8 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using HelpService.DBContexts;
+//using HelpService.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<HelpContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppConn")));
 builder.Services.AddControllers();
+//builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

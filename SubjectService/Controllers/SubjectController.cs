@@ -141,5 +141,12 @@ namespace SubjectService.Controllers
                 return CreatedAtAction(nameof(Get), new { id = subjectNotification.SubjectNotificationId}, subjectNotification);
             }
         }
+
+        [HttpDelete("DeleteFile")]
+        public IActionResult DeleteFile(string lessonFileName)
+        {
+            _subjectRepository.DeleteLessonFile( lessonFileName);
+            return new OkResult();
+        }
     }
 }

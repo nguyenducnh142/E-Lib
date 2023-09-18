@@ -12,8 +12,8 @@ using SubjectService.DBContexts;
 namespace SubjectService.Migrations
 {
     [DbContext(typeof(SubjectContext))]
-    [Migration("20230915112503_subjectdb")]
-    partial class subjectdb
+    [Migration("20230916093531_subject")]
+    partial class subject
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,9 @@ namespace SubjectService.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonFileId"));
 
+                    b.Property<bool>("Approve")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LessonFileDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -119,9 +122,6 @@ namespace SubjectService.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubjectId"));
-
-                    b.Property<bool>("Approve")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");

@@ -70,6 +70,9 @@ namespace SubjectService.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonFileId"));
 
+                    b.Property<bool>("Approve")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LessonFileDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -80,6 +83,13 @@ namespace SubjectService.Migrations
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TeacherName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LessonFileId");
 
@@ -116,9 +126,6 @@ namespace SubjectService.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubjectId"));
-
-                    b.Property<bool>("Approve")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");

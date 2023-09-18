@@ -67,17 +67,68 @@ namespace SubjectService.Controllers
             return new NoContentResult();
         }
 
-        //UpdateLesson&LessonFile
+        //UpdateLesson
+        [HttpPut("UpdateLessonName")]
+        public IActionResult UpdateLesson([FromBody] string lessonName, int lessonId)
+        {
+            if (lessonName != null && lessonId != null)
+            {
+                using (var scope = new TransactionScope())
+                {
+                    _teacherRepository.UpdateLesson(lessonName, lessonId);
+                    scope.Complete();
+                    return new OkResult();
+                }
+            }
+            return new NoContentResult();
+        }
 
+
+        //LessonFile
+        [HttpDelete("DeleteLessonFile")]
+        public IActionResult DeleteFile(string lessonFileName)
+        {
+            _teacherRepository.DeleteLessonFile(lessonFileName);
+            return new OkResult();
+        }
+
+        //UpdateLessonFileDesciption
+        [HttpPut("UpdateLessonFileName")]
+        public IActionResult UpdateLessonFileName([FromBody] string lessonFileName, int lessonFileId)
+        {
+            if (lessonFileName != null && lessonFileId != null)
+            {
+                using (var scope = new TransactionScope())
+                {
+                    _teacherRepository.UpdateLessonFile(lessonFileName, lessonFileId);
+                    scope.Complete();
+                    return new OkResult();
+                }
+            }
+            return new NoContentResult();
+        }
 
         //ViewAsStudent???
 
 
         //AddLesson
-
+        [HttpPost("AddLesson")]
+        public IActionResult AddLesson([FromBody] Lesson lesson)
+        {
+            using (var scope = new TransactionScope())
+            {
+                _teacherRepository.InsertLesson(lesson);
+                scope.Complete();
+                return CreatedAtAction(nameof(GetSubjectList), new { id = lesson.LessonId }, lesson);
+            }
+        }
 
         //AddLessonFile
-
+        [HttpPost("UploadLessonFile")]
+        public IActionResult UploadLessonFile(IFormFile file, string lessonFileName, int lessonId, string lessonDescription, CancellationToken cancellationtoken)
+        {
+            return Ok(_teacherRepository.WriteFile(file, lessonFileName, lessonId, lessonDescription));
+        }
 
         //GetAllClass
 

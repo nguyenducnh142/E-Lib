@@ -8,6 +8,5 @@
         public string TeacherName { get; set; }
         public DateTime Date { get; set; }
         public bool Star {  get; set; }
-        public bool Approve { get; set; }
     }
 }

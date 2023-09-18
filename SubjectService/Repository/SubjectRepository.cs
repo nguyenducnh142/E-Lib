@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using SubjectService.DBContexts;
-using SubjectService.Migrations;
+//using SubjectService.Migrations;
 using SubjectService.Models;
 
 namespace SubjectService.Repository
@@ -69,6 +69,7 @@ namespace SubjectService.Repository
             lessonFile.LessonId= lessonId;
             lessonFile.LessonFileName= lessonFileName;
             lessonFile.LessonFileDescription= lessonFileDescription;
+            lessonFile.Approve = false;
             _dbContext.Add(lessonFile);
             Save();
             string filename = "";
@@ -107,6 +108,23 @@ namespace SubjectService.Repository
         {
             _dbContext.Add(subjectNotification);
             Save();
+        }
+
+        public void DeleteLessonFile(string lessonFileName)
+        {
+
+            var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files");
+            string filePath = lessonFileName  ;
+
+            if (!Directory.Exists(filepath))
+            {
+                Directory.CreateDirectory(filepath);
+            }
+
+            var exactpath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files", filePath);
+            File.SetAttributes(filepath, FileAttributes.Normal);
+            File.Delete(exactpath);
+            
         }
     }
 }

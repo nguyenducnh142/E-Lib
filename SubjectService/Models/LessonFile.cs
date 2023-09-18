@@ -8,5 +8,8 @@ namespace SubjectService.Models
         public string LessonFileName { get; set; }
         public string LessonFileDescription { get; set; }
         public int LessonId { get; set; }
+        public bool Approve { get; set; }
+        public string TeacherName {  get; set; }
+        public int SubjectId { get; set; }
     }
 }

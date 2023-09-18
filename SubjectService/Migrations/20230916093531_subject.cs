@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SubjectService.Migrations
 {
     /// <inheritdoc />
-    public partial class subjectdb : Migration
+    public partial class subject : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,7 +47,8 @@ namespace SubjectService.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LessonFileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LessonFileDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: false)
+                    LessonId = table.Column<int>(type: "int", nullable: false),
+                    Approve = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,8 +95,7 @@ namespace SubjectService.Migrations
                     SubjectDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TeacherName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Star = table.Column<bool>(type: "bit", nullable: false),
-                    Approve = table.Column<bool>(type: "bit", nullable: false)
+                    Star = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

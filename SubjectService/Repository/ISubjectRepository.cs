@@ -17,5 +17,6 @@ namespace SubjectService.Repository
         string WriteFile(IFormFile file, string lessonFileName, int lessonId, string lessonFileDescription);
         void InsertQuestion(Question question);
         void InsertSubjectNoti(SubjectNotification subjectNotification);
+        void DeleteLessonFile(string lessonFileName);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SubjectService.DBContexts;
-using SubjectService.Migrations;
-using SubjectService.Migrations;
+//using SubjectService.Migrations;
 using SubjectService.Models;
 
 namespace SubjectService.Repository
@@ -22,24 +21,27 @@ namespace SubjectService.Repository
 
         public IEnumerable<Subject> GetSubjects()
         {
-            return _dbContext.Subjects.Where(e=>e.Approve==true).ToList();
+            return _dbContext.Subjects.ToList();
         }
 
         public IEnumerable<Subject> GetSubjectByName(string subjectName)
         {
             return _dbContext.Subjects.Where(e => (
             _dbContext.FuzzySearch(e.SubjectName) == _dbContext.FuzzySearch(subjectName)|
-            _dbContext.FuzzySearch(e.TeacherName) == _dbContext.FuzzySearch(subjectName)) &&
-            e.Approve==true)
+            _dbContext.FuzzySearch(e.TeacherName) == _dbContext.FuzzySearch(subjectName)))
                 .ToList();
         }
 
         public IEnumerable<Subject> GetSubjectSorted()
         {
+            return _dbContext.Subjects.OrderBy(e => e.SubjectName).ToList();
+        }
+        /*public IEnumerable<Subject> GetSubjectSorted()
+        {
             var subjects = _dbContext.Subjects.Where(e => e.Approve == true);
             subjects = subjects.OrderBy(e => e.SubjectName);
             return subjects.ToList();
-        }
+        }*/
 
         public string GetSubjectDescription(int subjectId)
         {
@@ -53,7 +55,7 @@ namespace SubjectService.Repository
 
         public IEnumerable<LessonFile> GetAllLessonFile(int lessonId)
         {
-            return _dbContext.LessonsFiles.Where(e => e.LessonId == lessonId).ToList();
+            return _dbContext.LessonsFiles.Where(e => e.LessonId == lessonId && e.Approve == true).ToList();
         }
 
         public IEnumerable<Question> GetAllQuestion(int subjectId)
