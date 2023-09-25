@@ -1,8 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using NotificationService.DBContexts;
+using NotificationService.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<NotificationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppConn")));
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -23,15 +23,15 @@ namespace SubjectService.Repository
         public IEnumerable<Subject> GetSubjects()
         {
             //GetSubjectNotAproved
-            List<int> lessonIds = _dbContext.LessonsFiles.Where(e => e.Approve == false).Select(e => e.LessonId).ToList();
-            List<int> subjectIds = new List<int>();
+            List<string> lessonIds = _dbContext.LessonsFiles.Where(e => e.Approve == false).Select(e => e.LessonId).ToList();
+            List<string> subjectIds = new List<string>();
             List<Subject> subjects = new List<Subject>();
             foreach (var lessonId in lessonIds)
             {
-                int subjectIdsTmp = _dbContext.Lessons.Where(e => e.LessonId == lessonId).Select(e => e.SubjectId).FirstOrDefault();
+                string subjectIdsTmp = _dbContext.Lessons.Where(e => e.LessonId == lessonId).Select(e => e.SubjectId).FirstOrDefault();
                 subjectIds.Add(subjectIdsTmp);
             }
-            List<int> distinctSubjectIds = subjectIds.Distinct().ToList();
+            List<string> distinctSubjectIds = subjectIds.Distinct().ToList();
             foreach (var subjectId in distinctSubjectIds)
             {
                 Subject subject = _dbContext.Subjects.Where(e => e.SubjectId == subjectId).FirstOrDefault();
@@ -53,14 +53,14 @@ namespace SubjectService.Repository
             return _dbContext.LessonsFiles.ToList();
         }
 
-        public void AproveLessonFile(int lessonFileId)
+        public void AproveLessonFile(string lessonFileId)
         {
             var lessonFile = _dbContext.LessonsFiles.Find(lessonFileId);
             lessonFile.Approve= true;
             Save();
         }
 
-        public void UnAproveLessonFile(int lessonFileId)
+        public void UnAproveLessonFile(string lessonFileId)
         {
             var lessonFile = _dbContext.LessonsFiles.Find(lessonFileId);
             lessonFile.Approve = false;

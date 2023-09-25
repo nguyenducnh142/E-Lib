@@ -32,7 +32,7 @@ namespace SubjectService.Controllers
 
         // GET api/<SubjectController>/5
         [HttpGet("SearchById/{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(string id)
         {
             var subject = _subjectRepository.GetSubjectByID(id);
             return new OkObjectResult(subject);
@@ -76,7 +76,7 @@ namespace SubjectService.Controllers
 
         // DELETE api/<SubjectController>/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             _subjectRepository.DeleteSubject(id);
             return new OkResult();
@@ -95,7 +95,7 @@ namespace SubjectService.Controllers
         }
 
         [HttpPost("UploadFile")]
-        public IActionResult UploadFile(IFormFile file, string lessonFileName, int lessonId,string lessonDescription, CancellationToken cancellationtoken)
+        public IActionResult UploadFile(IFormFile file, string lessonFileName, string lessonId,string lessonDescription, CancellationToken cancellationtoken)
         {
             return Ok(_subjectRepository.WriteFile(file, lessonFileName, lessonId, lessonDescription));
         }

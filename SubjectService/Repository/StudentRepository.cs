@@ -43,32 +43,32 @@ namespace SubjectService.Repository
             return subjects.ToList();
         }*/
 
-        public string GetSubjectDescription(int subjectId)
+        public string GetSubjectDescription(string subjectId)
         {
             return _dbContext.Subjects.Find(subjectId).SubjectDescription;
         }
 
-        public IEnumerable<Lesson> GetAllLesson(int subjectId)
+        public IEnumerable<Lesson> GetAllLesson(string subjectId)
         {
             return _dbContext.Lessons.Where(e=>e.SubjectId==subjectId).ToList();
         }
 
-        public IEnumerable<LessonFile> GetAllLessonFile(int lessonId)
+        public IEnumerable<LessonFile> GetAllLessonFile(string lessonId)
         {
             return _dbContext.LessonsFiles.Where(e => e.LessonId == lessonId && e.Approve == true).ToList();
         }
 
-        public IEnumerable<Question> GetAllQuestion(int subjectId)
+        public IEnumerable<Question> GetAllQuestion(string subjectId)
         {
             return _dbContext.Questions.Where(e => e.SubjectId == subjectId).ToList();
         }
 
-        public IEnumerable<Question> GetLessonQuestion(int subjectId, int lessonId)
+        public IEnumerable<Question> GetLessonQuestion(string subjectId, string lessonId)
         {
             return _dbContext.Questions.Where(e => e.SubjectId == subjectId&&e.LessonId==lessonId).ToList();
         }
 
-        public IEnumerable<Answer> GetAnswer(int questionId)
+        public IEnumerable<Answer> GetAnswer(string questionId)
         {
             return _dbContext.Answers.Where(e => e.QuestionId == questionId).ToList();
         }
@@ -85,7 +85,7 @@ namespace SubjectService.Repository
             Save();
         }
 
-        public IEnumerable<SubjectNotification> GetSubjectNoti(int subjectId)
+        public IEnumerable<SubjectNotification> GetSubjectNoti(string subjectId)
         {
             return _dbContext.SubjectNotifications.Where(e => e.SubjectId == subjectId).ToList();
         }

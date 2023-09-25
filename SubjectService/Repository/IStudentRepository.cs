@@ -7,15 +7,15 @@ namespace SubjectService.Repository
         IEnumerable<Subject> GetSubjects();
         IEnumerable<Subject> GetSubjectByName(string subjectName);
         IEnumerable<Subject> GetSubjectSorted();
-        string GetSubjectDescription(int subjectId);
-        IEnumerable<Lesson> GetAllLesson(int subjectId);
-        IEnumerable<LessonFile> GetAllLessonFile(int lessonId);
+        string GetSubjectDescription(string subjectId);
+        IEnumerable<Lesson> GetAllLesson(string subjectId);
+        IEnumerable<LessonFile> GetAllLessonFile(string lessonId);
 
-        IEnumerable<Question> GetAllQuestion(int subjectId);
-        IEnumerable<Question> GetLessonQuestion(int subjectId, int lessonId);
-        IEnumerable<Answer> GetAnswer(int questionId);
+        IEnumerable<Question> GetAllQuestion(string subjectId);
+        IEnumerable<Question> GetLessonQuestion(string subjectId, string lessonId);
+        IEnumerable<Answer> GetAnswer(string questionId);
         void InsertQuestion(Question question);
         void InsertAnswer(Answer answer);
-        IEnumerable<SubjectNotification> GetSubjectNoti(int subjectId);
+        IEnumerable<SubjectNotification> GetSubjectNoti(string subjectId);
     }
 }

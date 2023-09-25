@@ -56,7 +56,7 @@ namespace SubjectService.Controllers
         //GetSubjectDescription
         // GET api/<SubjectController>/5
         [HttpGet("SubjectDescription/{id}")]
-        public IActionResult GetSubjectDescription(int id)
+        public IActionResult GetSubjectDescription(string id)
         {
             var subjectDescription = _studentRepository.GetSubjectDescription(id);
             return new OkObjectResult(subjectDescription);
@@ -64,7 +64,7 @@ namespace SubjectService.Controllers
 
         //LessonList
         [HttpGet("AllLesson/{subjectId}")]
-        public IActionResult GetLessonList(int subjectId)
+        public IActionResult GetLessonList(string subjectId)
         {
             var lesson = _studentRepository.GetAllLesson(subjectId);
             return new OkObjectResult(lesson);
@@ -72,7 +72,7 @@ namespace SubjectService.Controllers
 
         //LessonFileList
         [HttpGet("AllLessonFile/{lessonId}")]
-        public IActionResult GetLessonFileList(int lessonId)
+        public IActionResult GetLessonFileList(string lessonId)
         {
             var lessonFile = _studentRepository.GetAllLessonFile(lessonId);
             return new OkObjectResult(lessonFile);
@@ -97,7 +97,7 @@ namespace SubjectService.Controllers
 
         //QuestionList(AllLesson)
         [HttpGet("AllQuestion")]
-        public IActionResult GetQuestionList(int subjectId)
+        public IActionResult GetQuestionList(string subjectId)
         {
             var question = _studentRepository.GetAllQuestion(subjectId);
             return new OkObjectResult(question);
@@ -105,7 +105,7 @@ namespace SubjectService.Controllers
 
         //QuestionList(GetByLesson)
         [HttpGet("LessonQuestion")]
-        public IActionResult GetLessonQuestionList(int subjectId, int lessonId)
+        public IActionResult GetLessonQuestionList(string subjectId, string lessonId)
         {
             var question = _studentRepository.GetLessonQuestion(subjectId, lessonId);
             return new OkObjectResult(question);
@@ -113,7 +113,7 @@ namespace SubjectService.Controllers
 
         //AnswerList
         [HttpGet("AllAnswer")]
-        public IActionResult GetLessonQuestionList(int questionId)
+        public IActionResult GetLessonQuestionList(string questionId)
         {
             var answer = _studentRepository.GetAnswer(questionId);
             return new OkObjectResult(answer);
@@ -145,7 +145,7 @@ namespace SubjectService.Controllers
 
         //GetSubjectNotification
         [HttpGet("AllNotification")]
-        public IActionResult GetSubjectNotification(int subjectId)
+        public IActionResult GetSubjectNotification(string subjectId)
         {
             var subjectNoti = _studentRepository.GetSubjectNoti(subjectId);
             return new OkObjectResult(subjectNoti);

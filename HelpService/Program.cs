@@ -1,9 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using HelpService.DBContexts;
+using HelpService.Model;
+using HelpService.Repository;
 //using HelpService.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//gmail
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<IHelpRepository, HelpRepository>();
 // Add services to the container.
 builder.Services.AddDbContext<HelpContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppConn")));
 builder.Services.AddControllers();

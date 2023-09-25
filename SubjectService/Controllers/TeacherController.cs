@@ -53,7 +53,7 @@ namespace SubjectService.Controllers
 
         //UpdateSubjectDescription
         [HttpPut("UpdateSubjectDescription")]
-        public IActionResult UpdateSubDescrip([FromBody] string subjectDecription, int subjectId)
+        public IActionResult UpdateSubDescrip([FromBody] string subjectDecription, string subjectId)
         {
             if (subjectDecription != null && subjectId != null)
             {
@@ -69,7 +69,7 @@ namespace SubjectService.Controllers
 
         //UpdateLesson
         [HttpPut("UpdateLessonName")]
-        public IActionResult UpdateLesson([FromBody] string lessonName, int lessonId)
+        public IActionResult UpdateLesson([FromBody] string lessonName, string lessonId)
         {
             if (lessonName != null && lessonId != null)
             {
@@ -94,7 +94,7 @@ namespace SubjectService.Controllers
 
         //UpdateLessonFileDesciption
         [HttpPut("UpdateLessonFileName")]
-        public IActionResult UpdateLessonFileName([FromBody] string lessonFileName, int lessonFileId)
+        public IActionResult UpdateLessonFileName([FromBody] string lessonFileName, string lessonFileId)
         {
             if (lessonFileName != null && lessonFileId != null)
             {
@@ -125,9 +125,10 @@ namespace SubjectService.Controllers
 
         //AddLessonFile
         [HttpPost("UploadLessonFile")]
-        public IActionResult UploadLessonFile(IFormFile file, string lessonFileName, int lessonId, string lessonDescription, CancellationToken cancellationtoken)
+        public IActionResult UploadLessonFile(IFormFile file, string lessonFileName, string lessonId, string lessonDescription, CancellationToken cancellationtoken)
         {
-            return Ok(_teacherRepository.WriteFile(file, lessonFileName, lessonId, lessonDescription));
+            _teacherRepository.WriteFile(file, lessonFileName, lessonId, lessonDescription);
+            return new OkObjectResult(lessonFileName);
         }
 
         //GetAllClass

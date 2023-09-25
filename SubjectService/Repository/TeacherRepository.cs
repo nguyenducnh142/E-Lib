@@ -21,7 +21,7 @@ namespace SubjectService.Repository
         }
 
 
-        public void UpdateSubDes(string subjectDesciption, int subjectId)
+        public void UpdateSubDes(string subjectDesciption, string subjectId)
         {
             var subDes = new Subject(){
                 SubjectId = subjectId,
@@ -34,7 +34,7 @@ namespace SubjectService.Repository
             
         }
 
-        public void UpdateLesson(string lessonName, int lessonId)
+        public void UpdateLesson(string lessonName, string lessonId)
         {
             var lesson = new Lesson()
             {
@@ -63,7 +63,7 @@ namespace SubjectService.Repository
 
         }
 
-        public void UpdateLessonFile(string lessonFileName, int lessonFileId)
+        public void UpdateLessonFile(string lessonFileName, string lessonFileId)
         {
             var lessonFile = new LessonFile()
             {
@@ -82,7 +82,7 @@ namespace SubjectService.Repository
             Save();
         }
 
-        public string WriteFile(IFormFile file, string lessonFileName, int lessonId, string lessonFileDescription)
+        public void WriteFile(IFormFile file, string lessonFileName, string lessonId, string lessonFileDescription)
         {
             LessonFile lessonFile = new LessonFile();
             lessonFile.LessonId = lessonId;
@@ -113,7 +113,7 @@ namespace SubjectService.Repository
             catch (Exception ex)
             {
             }
-            return filename;
+
         }
     }
 }

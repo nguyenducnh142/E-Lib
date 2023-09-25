@@ -41,7 +41,7 @@ namespace SubjectService.Controllers
 
         //Lesson
         [HttpGet("AllLesson/{subjectId}")]
-        public IActionResult GetLessonList(int subjectId)
+        public IActionResult GetLessonList(string subjectId)
         {
             var lesson = _studentRepository.GetAllLesson(subjectId);
             return new OkObjectResult(lesson);
@@ -75,7 +75,7 @@ namespace SubjectService.Controllers
 
         //AproveLessonFile
         [HttpPut("AproveLessonFile/{lessonFileId}")]
-        public IActionResult AproveLessonFile(int lessonFileId)
+        public IActionResult AproveLessonFile(string lessonFileId)
         {
             using (var scope = new TransactionScope())
             {
@@ -87,7 +87,7 @@ namespace SubjectService.Controllers
 
         //UnAproveLessonFile
         [HttpPut("UnAproveLessonFile/{lessonFileId}")]
-        public IActionResult UnAproveLessonFile(int lessonFileId)
+        public IActionResult UnAproveLessonFile(string lessonFileId)
         {
             using (var scope = new TransactionScope())
             {

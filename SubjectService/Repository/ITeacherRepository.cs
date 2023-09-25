@@ -4,11 +4,11 @@ namespace SubjectService.Repository
 {
     public interface ITeacherRepository
     {
-        void UpdateSubDes(string subjectDesciption, int subjectId);
-        void UpdateLesson(string lessonName, int lessonId);
+        void UpdateSubDes(string subjectDesciption, string subjectId);
+        void UpdateLesson(string lessonName, string lessonId);
         void DeleteLessonFile(string fileName);
-        void UpdateLessonFile(string lessonFileName, int lessonFileId);
+        void UpdateLessonFile(string lessonFileName, string lessonFileId);
         void InsertLesson(Lesson lesson);
-        string WriteFile(IFormFile file, string lessonFileName, int lessonId, string lessonFileDescription);
+        void WriteFile(IFormFile file, string lessonFileName, string lessonId, string lessonFileDescription);
     }
 }

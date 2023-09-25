@@ -22,13 +22,13 @@ namespace HelpService.Controllers
 
 
         [HttpPost("AddHelp")]
-        public IActionResult SendHelp([FromBody] string helpDetail)
+        public IActionResult SendHelp([FromBody] Help help)
         {
             using (var scope = new TransactionScope())
             {
-                _helpRepository.SendHelp(helpDetail);
+                _helpRepository.SendHelp(help);
                 scope.Complete();
-                return Ok(helpDetail);
+                return Ok(help);
             }
         }
 
@@ -60,7 +60,11 @@ namespace HelpService.Controllers
                 return client.Port.ToString();
             }
         }
-
-
+        [HttpPut]
+        public void SendEmail([FromBody]string helpDetail)
+        {
+            var message = new Message(new string[] { "nguyenducnhat142@gmail.com" }, "Trợ giúp E-Lib", helpDetail);
+            _helpRepository.SendEmail(message);
+        }
     }
 }

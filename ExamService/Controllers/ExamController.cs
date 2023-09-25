@@ -7,11 +7,11 @@ namespace ExamService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeacherController : ControllerBase
+    public class ExamController : ControllerBase
     {
         private readonly ITeacherRepository _teacherRepository;
 
-        public TeacherController(ITeacherRepository teacherRepository)
+        public ExamController(ITeacherRepository teacherRepository)
         {
             _teacherRepository = teacherRepository;
         }

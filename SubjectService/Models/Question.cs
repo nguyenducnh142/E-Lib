@@ -2,9 +2,9 @@
 {
     public class Question
     {
-        public int QuestionId { get; set; }
+        public string QuestionId { get; set; }
         public string QuestionDetail { get; set; }
-        public int LessonId { get; set; }
-        public int SubjectId { get; set; }
+        public string LessonId { get; set; }
+        public string SubjectId { get; set; }
     }
 }

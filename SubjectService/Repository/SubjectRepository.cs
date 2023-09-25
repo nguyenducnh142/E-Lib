@@ -16,7 +16,7 @@ namespace SubjectService.Repository
             _dbContext = dbContext;
         }
 
-        public void DeleteSubject(int subjectId)
+        public void DeleteSubject(string subjectId)
         {
             var subject = _dbContext.Subjects.Find(subjectId);
             _dbContext.Subjects.Remove(subject);
@@ -24,7 +24,7 @@ namespace SubjectService.Repository
         }
 
 
-        public Subject GetSubjectByID(int subjectId)
+        public Subject GetSubjectByID(string subjectId)
         {
             return _dbContext.Subjects.Find(subjectId);
         }
@@ -63,7 +63,7 @@ namespace SubjectService.Repository
             Save();
         }
 
-        public string WriteFile(IFormFile file, string lessonFileName, int lessonId, string lessonFileDescription)
+        public string WriteFile(IFormFile file, string lessonFileName, string lessonId, string lessonFileDescription)
         {
             LessonFile lessonFile = new LessonFile();
             lessonFile.LessonId= lessonId;

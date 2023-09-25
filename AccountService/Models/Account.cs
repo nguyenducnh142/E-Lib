@@ -14,6 +14,7 @@ namespace AccountService.Models
         public bool Sex {  get; set; }
         public string Address { get; set; }
         public int Role { get; set; }
+        public DateTime UpdateDate { get; set; }
 
     }
 }
