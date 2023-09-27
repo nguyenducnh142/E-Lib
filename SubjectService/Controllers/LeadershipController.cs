@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SubjectService.Migrations;
+//using SubjectService.Migrations;
 using SubjectService.Models;
 using SubjectService.Repository;
 using System.Transactions;
@@ -12,98 +12,94 @@ namespace SubjectService.Controllers
     [ApiController]
     public class LeadershipController : ControllerBase
     {
-        private readonly IStudentRepository _studentRepository;
         private readonly ILeadershipRepository _leadershipRepository;
 
-        public LeadershipController(IStudentRepository studentRepository, ILeadershipRepository leadershipRepository)
+        public LeadershipController(ILeadershipRepository leadershipRepository)
         {
-            _studentRepository = studentRepository;
             _leadershipRepository = leadershipRepository;
         }
-
-        //Subject
-        // GET: api/<SubjectController>
-        [HttpGet("AllSubject")]
-        public IActionResult GetSubjectList()
+        
+        //Get Subjects
+        [HttpGet("/GetSubjects")]
+        public async Task<IActionResult> GetSubjects()
         {
-            var subjects = _studentRepository.GetSubjects();
+            var subjects = await _leadershipRepository.GetSubjects();
             return new OkObjectResult(subjects);
         }
 
-        //SubjectNonApprove
-        // GET: api/<SubjectController>
-        [HttpGet("AllSubjectNonAprove")]
-        public IActionResult GetSubjectListNonAproved()
+        //Get SubjectNonApprove
+        [HttpGet("/GetSubjectNonAprove")]
+        public async Task<IActionResult> GetSubjectNonAproved()
         {
-            var subjects = _leadershipRepository.GetSubjects();
+            var subjects = await _leadershipRepository.GetSubjectsNonAproved();
             return new OkObjectResult(subjects);
         }
 
-        //Lesson
-        [HttpGet("AllLesson/{subjectId}")]
-        public IActionResult GetLessonList(string subjectId)
+        //Get Lessons By SubjectId
+        [HttpGet("/GetLessons/{subjectId}")]
+        public async Task<IActionResult> GetLessonList(string subjectId)
         {
-            var lesson = _studentRepository.GetAllLesson(subjectId);
+            var lesson = await _leadershipRepository.GetLessons(subjectId);
             return new OkObjectResult(lesson);
         }
 
-        //LessonFile
-        [HttpGet("AllLessonFile")]
-        public IActionResult GetLessonFileList()
+        //Get LessonFiles
+        [HttpGet("/GetLessonFiles")]
+        public async Task<IActionResult> GetLessonFiles()
         {
-            var lessonFile = _leadershipRepository.GetAllLessonFile();
+            var lessonFile = await _leadershipRepository.GetLessonFiles();
             return new OkObjectResult(lessonFile);
         }
 
-        //LessonFileNonAproved
-        [HttpGet("AllLessonFileNonApprove")]
-        public IActionResult GetLessonFileNonAprovedList()
+        //Get LessonFiles Non Aproved
+        [HttpGet("/GetLessonFilesNonApproved")]
+        public async Task<IActionResult> GetLessonFileNonAprovedList()
         {
-            var lessonFile = _leadershipRepository.GetAllLessonNonAprovedFile();
+            var lessonFile = await _leadershipRepository.GetLessonFilesNonAproved();
             return new OkObjectResult(lessonFile);
         }
 
-        //SortLessonFile
-        [HttpGet("AllLessonFileSorted/{sortby}")]
-        public IActionResult GetLessonFileListSorted(string sortby)
+        //Sort LessonFiles
+        [HttpGet("/SortLessonFile/{sortby}")]
+        public async Task<IActionResult> GetLessonFileListSorted(string sortby)
         {
-            var lessonFile = _leadershipRepository.GetAllLessonFileSorted(sortby);
+            var lessonFile = await _leadershipRepository.SortLessonFiles(sortby);
             return new OkObjectResult(lessonFile);
         }
 
 
 
-        //AproveLessonFile
-        [HttpPut("AproveLessonFile/{lessonFileId}")]
-        public IActionResult AproveLessonFile(string lessonFileId)
+        //Aprove/UnAprove LessonFile
+        [HttpPut("/AproveLessonFile/{lessonFileId}")]
+        public async Task<IActionResult> AproveLessonFile(string lessonFileId)
         {
             using (var scope = new TransactionScope())
             {
-                _leadershipRepository.AproveLessonFile(lessonFileId);
+                await _leadershipRepository.AproveLessonFile(lessonFileId);
                 scope.Complete();
                 return new OkResult();
             }
         }
 
-        //UnAproveLessonFile
-        [HttpPut("UnAproveLessonFile/{lessonFileId}")]
-        public IActionResult UnAproveLessonFile(string lessonFileId)
-        {
-            using (var scope = new TransactionScope())
-            {
-                _leadershipRepository.UnAproveLessonFile(lessonFileId);
-                scope.Complete();
-                return new OkResult();
-            }
-        }
 
-        //SearchLessonFile
-        [HttpGet("SearchLessonFile/{lessonFileName}")]
-        public IActionResult GetLessonFileByName(string lessonFileName)
+        //Search LessonFile
+        [HttpGet("/SearchLessonFile/{lessonFileName}")]
+        public async Task<IActionResult> GetLessonFileByName(string lessonFileName)
         {
-            var lessonFile = _leadershipRepository.GetLessonFileByName(lessonFileName);
+            var lessonFile = await _leadershipRepository.GetLessonFileByName(lessonFileName);
             return new OkObjectResult(lessonFile);
         }
 
+        //Add Subject
+        [HttpPost("/AddSubject")]
+        public async Task<IActionResult> AddSubject( Subject subject)
+        {
+            using (var scope = new TransactionScope())
+            {
+                await _leadershipRepository.InsertSubject(subject);
+                scope.Complete();
+                return CreatedAtAction(nameof(GetSubjects), new { id = subject.SubjectId }, subject);
+            }
+        }
     }
 }

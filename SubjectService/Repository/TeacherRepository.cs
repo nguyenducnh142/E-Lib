@@ -21,10 +21,10 @@ namespace SubjectService.Repository
         }
 
 
-        public void UpdateSubDes(string subjectDesciption, string subjectId)
+        public async Task UpdateSubDes(string subjectDesciption, string subjectId)
         {
             var subDes = new Subject(){
-                SubjectId = subjectId,
+                SubjectId =  subjectId,
                 SubjectDescription = subjectDesciption
             };
 
@@ -34,7 +34,7 @@ namespace SubjectService.Repository
             
         }
 
-        public void UpdateLesson(string lessonName, string lessonId)
+        public async Task UpdateLesson(string lessonName, string lessonId)
         {
             var lesson = new Lesson()
             {
@@ -47,7 +47,7 @@ namespace SubjectService.Repository
             Save();
         }
 
-        public void DeleteLessonFile(string lessonFileName)
+        public async Task DeleteLessonFile(string lessonFileName)
         {
 
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files");
@@ -63,7 +63,7 @@ namespace SubjectService.Repository
 
         }
 
-        public void UpdateLessonFile(string lessonFileName, string lessonFileId)
+        public async Task UpdateLessonFile(string lessonFileName, string lessonFileId)
         {
             var lessonFile = new LessonFile()
             {
@@ -76,13 +76,13 @@ namespace SubjectService.Repository
             Save();
         }
 
-        public void InsertLesson(Lesson lesson)
+        public async Task InsertLesson(Lesson lesson)
         {
             _dbContext.Add(lesson);
             Save();
         }
 
-        public void WriteFile(IFormFile file, string lessonFileName, string lessonId, string lessonFileDescription)
+        public async Task WriteFile(IFormFile file, string lessonFileName, string lessonId, string lessonFileDescription)
         {
             LessonFile lessonFile = new LessonFile();
             lessonFile.LessonId = lessonId;
@@ -114,6 +114,65 @@ namespace SubjectService.Repository
             {
             }
 
+        }
+
+        public async Task<IEnumerable<Subject>> GetSubjects(string teacherName)
+        {
+            var subjects = _dbContext.Subjects.Where(e => e.TeacherName == teacherName).ToList();
+            return subjects;
+        }
+
+        public async Task<IEnumerable<Subject>> SearchSubjects(string searchInfo)
+        {
+            var subjects = _dbContext.Subjects.Where(e => (
+            _dbContext.FuzzySearch(e.SubjectName) == _dbContext.FuzzySearch(searchInfo) |
+            _dbContext.FuzzySearch(e.SubjectId) == _dbContext.FuzzySearch(searchInfo)))
+                .ToList();
+            return subjects;
+        }
+
+        public async Task<IEnumerable<Subject>> SortedSubjects(string teacherName)
+        {
+            var subjects = await GetSubjects(teacherName);
+            return subjects.OrderBy(e => e.SubjectName).ToList();
+        }
+
+        public async Task<IEnumerable<Lesson>> GetLessons(string subjectId)
+        {
+            return _dbContext.Lessons.Where(e => e.SubjectId == subjectId).ToList();
+        }
+
+        public async Task<IEnumerable<LessonFile>> GetLessonFilesByLesson(string lessonId)
+        {
+            return _dbContext.LessonsFiles.Where(e => e.LessonId == lessonId && e.Approve == true).ToList();
+        }
+
+        public async Task<IEnumerable<LessonFile>> GetLessonFilesBySubject(string subjectId)
+        {
+            var lessonFiles = new List<LessonFile>();
+            var lessons = await GetLessons(subjectId);
+            foreach (var lesson in lessons)
+            {
+                lessonFiles.Add(_dbContext.LessonsFiles.Where(e => e.LessonId == lesson.LessonId && e.Approve == true).FirstOrDefault());
+            }
+            return lessonFiles;
+        }
+
+        public async Task<IEnumerable<SubjectClass>> GetClass(string teacherName)
+        {
+            var subjects = await GetSubjects(teacherName);
+            var subjectClasses = new List<SubjectClass>();
+            foreach (var subject in subjects)
+            {
+                subjectClasses.Add(_dbContext.SubjectClasses.Where(e => e.SubjectId == subject.SubjectId).FirstOrDefault());
+            }
+            return subjectClasses;
+        }
+
+        public async Task InsertSubjectNoti(SubjectNotification subjectNotification)
+        {
+            _dbContext.Add(subjectNotification);
+            Save();
         }
     }
 }

@@ -10,6 +10,6 @@ namespace FileService.Models
         public string UserId { get; set; }
         public DateTime DateTime { get; set; }
         public string SubjectId { get; set; }
-        public int Size { get; set; } 
+        public long Size { get; set; } 
     }
 }

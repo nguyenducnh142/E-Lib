@@ -11,55 +11,71 @@ namespace SubjectService.Controllers
     [ApiController]
     public class TeacherController : ControllerBase
     {
-        private readonly IStudentRepository _studentRepository;
         private readonly ITeacherRepository _teacherRepository;
 
-        public TeacherController(IStudentRepository studentRepository, ITeacherRepository teacherRepository)
+        public TeacherController(ITeacherRepository teacherRepository)
         {
-            _studentRepository = studentRepository;
             _teacherRepository = teacherRepository;
         }
 
 
-        //SubjectList
-        // GET: api/<SubjectController>
-        [HttpGet("AllSubject")]
-        public IActionResult GetSubjectList()
+        //Get Subjects 
+        [HttpGet("/AllSubject")]
+        public async Task<IActionResult> GetSubjects(string teacherName)
         {
-            var subjects = _studentRepository.GetSubjects();
+            var subjects = await _teacherRepository.GetSubjects(teacherName);
             return new OkObjectResult(subjects);
         }
 
-        //SearchSubjectBySubjectName/TeacherName
-        // GET api/<SubjectController>/5
-        [HttpGet("SearchSubject/{subjectName}")]
-        public IActionResult GetByName(string subjectName)
+        //Search Subjects By SearchInfo(subjectId/SubjectName)
+        [HttpGet("/SearchSubject/{searchInfo}")]
+        public async Task<IActionResult> SearchSubjects(string searchInfo)
         {
-            var subject = _studentRepository.GetSubjectByName(subjectName);
-            return new OkObjectResult(subject);
-        }
-
-        //SortByName
-        // GET: api/<SubjectController>
-        [HttpGet("SortSubjects")]
-        public IActionResult SubjectListSort()
-        {
-            var subjects = _studentRepository.GetSubjectSorted();
+            var subjects = await _teacherRepository.SearchSubjects(searchInfo);
             return new OkObjectResult(subjects);
         }
 
-        //SortByLastAccess ?
+        //Sort Subject By Name
+        [HttpGet("/SortSubjects")]
+        public async Task<IActionResult> SortSubjects(string teacherName)
+        {
+            var subjects = await _teacherRepository.SortedSubjects(teacherName);
+            return new OkObjectResult(subjects);
+        }
 
+        //Get Lessons By SubjectId
+        [HttpGet("/GetLessons/{subjectId}")]
+        public async Task<IActionResult> GetLessons(string subjectId)
+        {
+            var lesson = await _teacherRepository.GetLessons(subjectId);
+            return new OkObjectResult(lesson);
+        }
 
-        //UpdateSubjectDescription
-        [HttpPut("UpdateSubjectDescription")]
-        public IActionResult UpdateSubDescrip([FromBody] string subjectDecription, string subjectId)
+        //Get LessonFile By LessonId
+        [HttpGet("/GetLessonFiles/{lessonId}")]
+        public async Task<IActionResult> GetLessonFiles(string lessonId)
+        {
+            var lessonFile = await _teacherRepository.GetLessonFilesByLesson(lessonId);
+            return new OkObjectResult(lessonFile);
+        }
+
+        //Get LessonFile By SubjectId
+        [HttpGet("/GetLessonFiles/{subjectId}")]
+        public async Task<IActionResult> GetLessonFilesBySubject(string subjectId)
+        {
+            var lessonFile = await _teacherRepository.GetLessonFilesBySubject(subjectId);
+            return new OkObjectResult(lessonFile);
+        }
+
+        //Change SubjectDescription
+        [HttpPut("/UpdateSubjectDescription")]
+        public async Task<IActionResult> UpdateSubDescrip(string subjectDecription, string subjectId)
         {
             if (subjectDecription != null && subjectId != null)
             {
                 using (var scope = new TransactionScope())
                 {
-                    _teacherRepository.UpdateSubDes(subjectDecription, subjectId);
+                    await _teacherRepository.UpdateSubDes(subjectDecription, subjectId);
                     scope.Complete();
                     return new OkResult();
                 }
@@ -67,15 +83,15 @@ namespace SubjectService.Controllers
             return new NoContentResult();
         }
 
-        //UpdateLesson
-        [HttpPut("UpdateLessonName")]
-        public IActionResult UpdateLesson([FromBody] string lessonName, string lessonId)
+        //Change LessonName
+        [HttpPut("/UpdateLessonName")]
+        public async Task<IActionResult> UpdateLesson(string lessonName, string lessonId)
         {
             if (lessonName != null && lessonId != null)
             {
                 using (var scope = new TransactionScope())
                 {
-                    _teacherRepository.UpdateLesson(lessonName, lessonId);
+                    await _teacherRepository.UpdateLesson(lessonName, lessonId);
                     scope.Complete();
                     return new OkResult();
                 }
@@ -84,23 +100,23 @@ namespace SubjectService.Controllers
         }
 
 
-        //LessonFile
-        [HttpDelete("DeleteLessonFile")]
-        public IActionResult DeleteFile(string lessonFileName)
+        //Delete LessonFile (Filename + đuôi)
+        [HttpDelete("/DeleteLessonFile")]
+        public async Task<IActionResult> DeleteFile(string lessonFileName)
         {
-            _teacherRepository.DeleteLessonFile(lessonFileName);
+            await _teacherRepository.DeleteLessonFile(lessonFileName);
             return new OkResult();
         }
 
-        //UpdateLessonFileDesciption
-        [HttpPut("UpdateLessonFileName")]
-        public IActionResult UpdateLessonFileName([FromBody] string lessonFileName, string lessonFileId)
+        //Update LessonFileDesciption
+        [HttpPut("/UpdateLessonFileName")]
+        public async Task<IActionResult> UpdateLessonFileName(string lessonFileName, string lessonFileId)
         {
             if (lessonFileName != null && lessonFileId != null)
             {
                 using (var scope = new TransactionScope())
                 {
-                    _teacherRepository.UpdateLessonFile(lessonFileName, lessonFileId);
+                    await _teacherRepository.UpdateLessonFile(lessonFileName, lessonFileId);
                     scope.Complete();
                     return new OkResult();
                 }
@@ -108,33 +124,45 @@ namespace SubjectService.Controllers
             return new NoContentResult();
         }
 
-        //ViewAsStudent???
-
-
         //AddLesson
-        [HttpPost("AddLesson")]
-        public IActionResult AddLesson([FromBody] Lesson lesson)
+        [HttpPost("/AddLesson")]
+        public async Task<IActionResult> AddLesson(Lesson lesson)
         {
             using (var scope = new TransactionScope())
             {
-                _teacherRepository.InsertLesson(lesson);
+                await _teacherRepository.InsertLesson(lesson);
                 scope.Complete();
-                return CreatedAtAction(nameof(GetSubjectList), new { id = lesson.LessonId }, lesson);
+                return CreatedAtAction(nameof(GetSubjects), new { id = lesson.LessonId }, lesson);
             }
         }
 
-        //AddLessonFile
-        [HttpPost("UploadLessonFile")]
-        public IActionResult UploadLessonFile(IFormFile file, string lessonFileName, string lessonId, string lessonDescription, CancellationToken cancellationtoken)
+        //Add LessonFile
+        [HttpPost("/UploadLessonFile")]
+        public async Task<IActionResult> UploadLessonFile(IFormFile file, string lessonFileName, string lessonId, string lessonDescription)
         {
-            _teacherRepository.WriteFile(file, lessonFileName, lessonId, lessonDescription);
+            await _teacherRepository.WriteFile(file, lessonFileName, lessonId, lessonDescription);
             return new OkObjectResult(lessonFileName);
         }
 
-        //GetAllClass
 
+        //Get Class
+        [HttpGet("/AllSubject")]
+        public async Task<IActionResult> GetClass(string teacherName)
+        {
+            var subjects = await _teacherRepository.GetClass(teacherName);
+            return new OkObjectResult(subjects);
+        }
 
-        //GetClassDetail
-
+        //Add Subject Notification
+        [HttpPost("/AddSubjectNotification")]
+        public async Task<IActionResult> AddNotification( SubjectNotification subjectNotification)
+        {
+            using (var scope = new TransactionScope())
+            {
+                await _teacherRepository.InsertSubjectNoti(subjectNotification);
+                scope.Complete();
+                return CreatedAtAction(nameof(GetSubjects), new { id = subjectNotification.SubjectNotificationId }, subjectNotification);
+            }
+        }
     }
 }

@@ -17,5 +17,6 @@ namespace ExamService.DbContexts
         public DbSet<Exam> Exams{ get; set; }
         public DbSet<TLQuestion> TLQuestions { get; set; }
         public DbSet<TNQuestion> TNQuestions { get; set; }
+        public DbSet<TNQuestionExam> TNQuestionExams { get; set; }
     }
 }

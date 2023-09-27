@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SubjectService.Migrations
 {
     /// <inheritdoc />
-    public partial class subject : Migration
+    public partial class update_database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,10 +15,9 @@ namespace SubjectService.Migrations
                 name: "Answers",
                 columns: table => new
                 {
-                    AnswerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AnswerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AnswerDetail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    QuestionId = table.Column<int>(type: "int", nullable: false)
+                    QuestionId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,10 +28,9 @@ namespace SubjectService.Migrations
                 name: "Lessons",
                 columns: table => new
                 {
-                    LessonId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LessonId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     LessonName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                    SubjectId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,12 +41,13 @@ namespace SubjectService.Migrations
                 name: "LessonsFiles",
                 columns: table => new
                 {
-                    LessonFileId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LessonFileId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     LessonFileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LessonFileDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: false),
-                    Approve = table.Column<bool>(type: "bit", nullable: false)
+                    LessonId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Approve = table.Column<bool>(type: "bit", nullable: false),
+                    TeacherName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubjectId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,11 +58,10 @@ namespace SubjectService.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    QuestionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     QuestionDetail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                    LessonId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubjectId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,11 +72,10 @@ namespace SubjectService.Migrations
                 name: "SubjectNotifications",
                 columns: table => new
                 {
-                    SubjectNotificationId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SubjectNotificationId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TeacherName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SubjectNotificationDetail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                    SubjectId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,8 +86,7 @@ namespace SubjectService.Migrations
                 name: "Subjects",
                 columns: table => new
                 {
-                    SubjectId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SubjectId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SubjectName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SubjectDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TeacherName = table.Column<string>(type: "nvarchar(max)", nullable: false),

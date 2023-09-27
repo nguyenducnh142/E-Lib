@@ -4,11 +4,11 @@ using System;
 
 namespace ExamService.Repository
 {
-    public class TeacherRepository : ITeacherRepository
+    public class ExamRepository : IExamRepository
     {
         private readonly ExamContext _dbContext;
 
-        public TeacherRepository(ExamContext dbContext)
+        public ExamRepository(ExamContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -16,62 +16,62 @@ namespace ExamService.Repository
         {
             _dbContext.SaveChanges();
         }
-        public void ChangeExamName(string examId, string examName)
+        public async Task ChangeExamName(string examId, string examName)
         {
             _dbContext.Exams.Find(examId).ExamName = examName;
             Save();
         }
 
-        public void ChangeQuestionDetail(string questionId, string questionDetail)
+        public async Task ChangeTNQuestionDetail(string questionId, string questionDetail)
         {
             _dbContext.TNQuestions.Find(questionId).QuestionDetail=questionDetail;
             Save();
         }
 
-        public void DeleteQuestion(string questionId)
+        public async Task DeleteQuestion(string questionId)
         {
             var question = _dbContext.TNQuestions.Find(questionId);
             _dbContext.TNQuestions.Remove(question);
             Save();
         }
 
-        public IEnumerable<Exam> GetAllExam()
+        public async Task<IEnumerable<Exam>> GetExams()
         {
-            return _dbContext.Exams.ToList();
+            return _dbContext.Exams.Where(e=>e.Approve==true).ToList();
         }
 
-        public IEnumerable<TNQuestion> GetAllTNQuestion()
+        public async Task<IEnumerable<TNQuestion>> GetTNQuestions()
         {
             return _dbContext.TNQuestions.Where(e=>e.QuestionUsed==false).ToList();
         }
 
-        public IEnumerable<Exam> GetExamByName(string examName)
+        public async Task<IEnumerable<Exam>> GetExamByName(string examName)
         {
-            return _dbContext.Exams.Where(e => _dbContext.FuzzySearch(e.ExamName) == _dbContext.FuzzySearch(examName));
+            return _dbContext.Exams.Where(e => _dbContext.FuzzySearch(e.ExamName) == _dbContext.FuzzySearch(examName) && e.Approve==true);
         }
 
-        public IEnumerable<Exam> GetExamBySubject(string subjectId)
+        public async Task<IEnumerable<Exam>> GetExamBySubject(string subjectId)
         {
-            return _dbContext.Exams.Where(e => e.SubjectId == subjectId);
+            return _dbContext.Exams.Where(e => e.SubjectId == subjectId && e.Approve==true);
         }
 
-        public Exam GetExamDetail(string examId)
+        public async Task<Exam> GetExamDetail(string examId)
         {
             return _dbContext.Exams.Find(examId);
         }
 
-        public TNQuestion GetTNQuestion(string questionId)
+        public async Task<TNQuestion> GetTNQuestion(string questionId)
         {
             return _dbContext.TNQuestions.Find(questionId);
         }
 
-        public void InsertExam(Exam exam)
+        public async Task AddExam(Exam exam)
         {
             _dbContext.Add(exam);
             Save();
         }
 
-        public void InsertQuestionFromBank(string examId, int lowLevel, int medLevel, int highLevel)
+        public async Task AddQuestionFromBank(string examId, int lowLevel, int medLevel, int highLevel)
         {
             List<TNQuestion> questionList = new List<TNQuestion>();
             var lowQuestion = _dbContext.TNQuestions.Where(e=>e.QuestionType==1).OrderBy(r => Guid.NewGuid()).Take(lowLevel);
@@ -91,29 +91,35 @@ namespace ExamService.Repository
             }
             foreach (var question in questionList)
             {
-                question.QuestionId = examId + question.QuestionId;
-                question.QuestionUsed = true;
-                question.ExamId = examId;
-                _dbContext.Add(question);
+                var tNQuestionExam = new TNQuestionExam();
+                tNQuestionExam.QuestionId = question.QuestionId;
+                tNQuestionExam.ExamId = examId;
+                _dbContext.Add(tNQuestionExam);
             }
             Save();
         }
 
-        public void InsertTLQuestion(TLQuestion tLQuestion)
+        public async Task AddTLQuestion(TLQuestion tLQuestion)
         {
             _dbContext.Add(tLQuestion);
             Save();
         }
 
-        public void InsertTNQuestion(TNQuestion tNQuestion)
+        public async Task AddTNQuestion(TNQuestion tNQuestion)
         {
             _dbContext.Add(tNQuestion);
             Save();
         }
 
-        public IEnumerable<TNQuestion> GetExamQuestion(string examId)
+        public async Task<IEnumerable<TNQuestion>> GetExamQuestions(string examId)
         {
-            return _dbContext.TNQuestions.Where(e=>e.ExamId==examId).ToList();
+            var questions = new List<TNQuestion>();
+            var tNQuestionExam = _dbContext.TNQuestionExams.Where(e => e.ExamId == examId).ToList();
+            foreach(var question in tNQuestionExam)
+            {
+                questions.Add(_dbContext.TNQuestions.Find(question.QuestionId));
+            }
+            return questions;
         }
     }
 }

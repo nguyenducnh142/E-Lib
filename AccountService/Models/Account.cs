@@ -11,10 +11,9 @@ namespace AccountService.Models
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public string UserName { get; set; }
-        public bool Sex {  get; set; }
+        public bool Sex { get; set; }
         public string Address { get; set; }
-        public int Role { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public string Role { get; set; }
 
     }
 }

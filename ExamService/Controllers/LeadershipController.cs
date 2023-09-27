@@ -8,10 +8,10 @@ namespace ExamService.Controllers
     [ApiController]
     public class LeadershipController : ControllerBase
     {
-        private readonly ITeacherRepository _teacherRepository;
+        private readonly IExamRepository _teacherRepository;
         private readonly ILeadershipRepository _leadershipRepository;
 
-        public LeadershipController(ITeacherRepository teacherRepository, ILeadershipRepository leadershipRepository)
+        public LeadershipController(IExamRepository teacherRepository, ILeadershipRepository leadershipRepository)
         {
             _teacherRepository = teacherRepository;
             _leadershipRepository = leadershipRepository;

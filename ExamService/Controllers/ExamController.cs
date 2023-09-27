@@ -9,111 +9,125 @@ namespace ExamService.Controllers
     [ApiController]
     public class ExamController : ControllerBase
     {
-        private readonly ITeacherRepository _teacherRepository;
+        private readonly IExamRepository _teacherRepository;
 
-        public ExamController(ITeacherRepository teacherRepository)
+        public ExamController(IExamRepository teacherRepository)
         {
             _teacherRepository = teacherRepository;
         }
 
-        [HttpGet("GetAllExam")]
-        public IActionResult GetAllExam()
+        // Get Exams
+        [HttpGet("/GetAllExam")]
+        public async Task<IActionResult> GetExams()
         {
-            var exams = _teacherRepository.GetAllExam();
+            var exams = await _teacherRepository.GetExams();
             return new OkObjectResult(exams);
 
         }
 
-        [HttpGet("GetExamBySubject")]
-        public IActionResult GetExamBySubject(string subjectId)
+        //Search Exam By SubjectId
+        [HttpGet("/GetExamBySubject/{subjectId}")]
+        public async Task<IActionResult> GetExamBySubject(string subjectId)
         {
-            var exams = _teacherRepository.GetExamBySubject(subjectId);
+            var exams = await _teacherRepository.GetExamBySubject(subjectId);
             return new OkObjectResult(exams);
         }
 
-        [HttpGet("GetExamByName")]
-        public IActionResult GetExamByName( string examName)
+        //Search Exam By Name
+        [HttpGet("GetExamByName/{examName}")]
+        public async Task<IActionResult> GetExamByName( string examName)
         {
-            var exams = _teacherRepository.GetExamByName(examName);
+            var exams = await _teacherRepository.GetExamByName(examName);
             return new OkObjectResult(exams);
         }
 
-        [HttpPost("InsertExam")]
-        public IActionResult InsertExam( Exam exam)
+        //Create New Exam
+        [HttpPost("/AddExam")]
+        public async Task<IActionResult> AddExam( Exam exam)
         {
-            _teacherRepository.InsertExam(exam);
+            await _teacherRepository.AddExam(exam);
             return new OkObjectResult(exam);
         }
 
-        [HttpPost("InsertTLQuestion")]
-        public IActionResult InsertTLQuesiton( TLQuestion tLQuestion)
+        //Add TLQuestion(tự luận)
+        [HttpPost("/AddTLQuestion")]
+        public async Task<IActionResult> AddTLQuesiton( TLQuestion tLQuestion)
         {
-            _teacherRepository.InsertTLQuestion(tLQuestion);
+            await _teacherRepository.AddTLQuestion(tLQuestion);
             return new OkObjectResult(tLQuestion);
         }
 
-        [HttpPost("InsertTNQuestion")]
-        public IActionResult InsertTNQuesiton( TNQuestion tNQuestion)
+        //Add TNQuestion(Trắc nghiệm)
+        [HttpPost("/AddTNQuestion")]
+        public async Task<IActionResult> InsertTNQuesiton( TNQuestion tNQuestion)
         {
-            _teacherRepository.InsertTNQuestion(tNQuestion);
+            await _teacherRepository.AddTNQuestion(tNQuestion);
             return new OkObjectResult(tNQuestion);
         }
 
-        [HttpGet("GetExamDetail")]
-        public IActionResult GetExamDetail( string examId)
+        //Get ExamDetail
+        [HttpGet("/GetExamDetail/{examId}")]
+        public async Task<IActionResult> GetExamDetail( string examId)
         {
-            var examDetail = _teacherRepository.GetExamDetail(examId);
+            var examDetail = await _teacherRepository.GetExamDetail(examId);
             return new OkObjectResult(examDetail);
         }
 
-        [HttpPut("ChangeExamName")]
-        public IActionResult ChangeExamName(string examId, string examName)
+        //Change ExamName
+        [HttpPut("/ChangeExamName")]
+        public async Task<IActionResult> ChangeExamName(string examId, string examName)
         {
-            _teacherRepository.ChangeExamName(examId, examName);
+            await _teacherRepository.ChangeExamName(examId, examName);
             return new OkObjectResult(examName);
         }
 
-        [HttpGet("GetAllTNQuestion")]
-        public IActionResult GetAllTNQuestion()
+        //Get TNQuestions
+        [HttpGet("/GetTNQuestions")]
+        public async Task<IActionResult> GetTNQuestions()
         {
-            var questions = _teacherRepository.GetAllTNQuestion();
+            var questions = await _teacherRepository.GetTNQuestions();
             return new OkObjectResult(questions);
 
         }
 
-        [HttpGet("GetTNQuestionDetail")]
-        public IActionResult GetTNQuestion( string questionId)
+        //Get TNQuestion
+        [HttpGet("/GetTNQuestion/{questionId}")]
+        public async Task<IActionResult> GetTNQuestion( string questionId)
         {
-            var questions = _teacherRepository.GetTNQuestion(questionId);
+            var questions = await _teacherRepository.GetTNQuestion(questionId);
             return new OkObjectResult(questions);
 
         }
 
-        [HttpPut("ChangeQuestionDetail")]
-        public IActionResult ChangeQuestionDetail( string questionId, string questionDetail)
+        //Change TNQuestionDetail
+        [HttpPut("/ChangeTNQuestionDetail")]
+        public async Task<IActionResult> ChangeTNQuestionDetail( string questionId, string questionDetail)
         {
-            _teacherRepository.ChangeQuestionDetail(questionId, questionDetail);
+            await _teacherRepository.ChangeTNQuestionDetail(questionId, questionDetail);
             return new OkObjectResult(questionId);
         }
 
-        [HttpDelete("DeleteQuestion")]
-        public IActionResult DeleteQuestion( string questionId)
+        //Delete Question
+        [HttpDelete("/DeleteQuestion")]
+        public async Task<IActionResult> DeleteQuestion(string questionId)
         {
-            _teacherRepository.DeleteQuestion(questionId) ;
+            await _teacherRepository.DeleteQuestion(questionId) ;
             return new OkObjectResult(questionId);
         }
 
-        [HttpPost("InsertQuestionFromBank")]
-        public IActionResult InsertQuesionFromBank( string examId, int lowLevelQuestion, int medLevelQuestion, int highLevelQuestion)
+        //Create Exam By QuestionBank
+        [HttpPost("/InsertQuestionFromBank")]
+        public async Task<IActionResult> AddQuesionFromBank( string examId, int lowLevelQuestion, int medLevelQuestion, int highLevelQuestion)
         {
-            _teacherRepository.InsertQuestionFromBank(examId, lowLevelQuestion, medLevelQuestion, highLevelQuestion);
+            await _teacherRepository.AddQuestionFromBank(examId, lowLevelQuestion, medLevelQuestion, highLevelQuestion);
             return new OkObjectResult(examId);
         }
 
-        [HttpGet("GetExamQuestions")]
-        public IActionResult GetExamQuestion( string examId )
+        //Get Exam's Questions
+        [HttpGet("/GetExamQuestions")]
+        public async Task<IActionResult> GetExamQuestions( string examId )
         {
-            var questions = _teacherRepository.GetExamQuestion(examId) ;
+            var questions = await _teacherRepository.GetExamQuestions(examId) ;
             return new OkObjectResult(questions);
         }
     }

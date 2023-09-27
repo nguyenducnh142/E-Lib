@@ -18,7 +18,7 @@ namespace AccountService.Controllers
             _accountRepository = accountRepository;
         }
 
-        [HttpGet("GetAccountDetail/{accountId}")]
+        [HttpGet("/GetAccountDetail/{accountId}")]
         public IActionResult GetAccountDetail(string  accountId)
         {
             var account = _accountRepository.GetAccountDetail(accountId);

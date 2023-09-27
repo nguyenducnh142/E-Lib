@@ -20,67 +20,65 @@ namespace SubjectService.Controllers
         }
 
 
-        //SubjectList
-        // GET: api/<SubjectController>
-        [HttpGet("AllSubject")]
-        public IActionResult GetSubjectList()
+        //Get Subjects By Class
+        [HttpGet("/GetSubjects")]
+        public async Task<IActionResult> GetSubjects(string classId)
         {
-            var subjects = _studentRepository.GetSubjects();
+            var subjects = await _studentRepository.GetSubjects(classId);
             return new OkObjectResult(subjects);
         }
 
-        //SearchSubjectBySubjectName/TeacherName
-        // GET api/<SubjectController>/5
-        [HttpGet("SearchSubject/{subjectName}")]
-        public IActionResult GetByName(string subjectName)
+        //Get Star Subjects
+        [HttpGet("/GetStarSubjects")]
+        public async Task<IActionResult> GetStarSubjects(string userId)
         {
-            var subject = _studentRepository.GetSubjectByName(subjectName);
+            var subjects = await _studentRepository.GetStarSubjects( userId);
+            return new OkObjectResult(subjects);
+        }
+
+        //Search Subject By SubjectName or TeacherName
+        [HttpGet("/SearchSubjects/{subjectName}")]
+        public async Task<IActionResult> GetByName(string searchInfo)
+        {
+            var subject = await _studentRepository.SearchSubjects(searchInfo);
             return new OkObjectResult(subject);
         }
 
-        //SortByName
-        // GET: api/<SubjectController>
-        [HttpGet("SortSubjects")]
-        public IActionResult SubjectListSort()
+        //Sort Subjects By Name
+        [HttpGet("/SortSubjects")]
+        public async Task<IActionResult> SubjectsSort(string classId)
         {
-            var subjects = _studentRepository.GetSubjectSorted();
+            var subjects = await _studentRepository.GetSubjectSorted(classId);
             return new OkObjectResult(subjects);
         }
 
-        //SortByLastAccess ?
-
-        //StarFilter ?
-
-        //StarSign ?
-
-        //GetSubjectDescription
-        // GET api/<SubjectController>/5
-        [HttpGet("SubjectDescription/{id}")]
-        public IActionResult GetSubjectDescription(string id)
+        //Get Lessons By SubjectId
+        [HttpGet("/GetLessons/{subjectId}")]
+        public async Task<IActionResult> GetLessonList(string subjectId)
         {
-            var subjectDescription = _studentRepository.GetSubjectDescription(id);
-            return new OkObjectResult(subjectDescription);
-        }
-
-        //LessonList
-        [HttpGet("AllLesson/{subjectId}")]
-        public IActionResult GetLessonList(string subjectId)
-        {
-            var lesson = _studentRepository.GetAllLesson(subjectId);
+            var lesson = await _studentRepository.GetLessons(subjectId);
             return new OkObjectResult(lesson);
         }
 
-        //LessonFileList
-        [HttpGet("AllLessonFile/{lessonId}")]
-        public IActionResult GetLessonFileList(string lessonId)
+        //Get LessonFile By LessonId
+        [HttpGet("/GetLessonFiles/{lessonId}")]
+        public async Task<IActionResult> GetLessonFileList(string lessonId)
         {
-            var lessonFile = _studentRepository.GetAllLessonFile(lessonId);
+            var lessonFile = await _studentRepository.GetLessonFilesByLesson(lessonId);
             return new OkObjectResult(lessonFile);
         }
 
-        //DownLessonFile
+        //Get LessonFile By SubjectId
+        [HttpGet("/GetLessonFiles/{subjectId}")]
+        public async Task<IActionResult> GetLessonFileListBySubject(string subjectId)
+        {
+            var lessonFile = await _studentRepository.GetLessonFilesBySubject(subjectId);
+            return new OkObjectResult(lessonFile);
+        }
+
+        //Downloead LessonFile
         [HttpGet]
-        [Route("DownloadFile")]
+        [Route("/DownloadFile")]
         public async Task<IActionResult> DownloadFile(string fileName)
         {
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files", fileName);
@@ -95,59 +93,81 @@ namespace SubjectService.Controllers
             return File(bytes, contenttype, Path.GetFileName(filepath));
         }
 
-        //QuestionList(AllLesson)
-        [HttpGet("AllQuestion")]
-        public IActionResult GetQuestionList(string subjectId)
+
+        //Star Subject
+        [HttpPut("/StarSubject")]
+        public async Task<IActionResult> AproveLessonFile(string subjectId, string userId)
         {
-            var question = _studentRepository.GetAllQuestion(subjectId);
+            using (var scope = new TransactionScope())
+            {
+                await _studentRepository.StarSubject(subjectId, userId);
+                scope.Complete();
+                return new OkResult();
+            }
+        }
+
+        //Get Subject Description
+        [HttpGet("/GetSubjectDescription/{subjectId}")]
+        public async Task<IActionResult> GetSubjectDescription(string subjectId)
+        {
+            var subjectDescription = await _studentRepository.GetSubjectDescription(subjectId);
+            return new OkObjectResult(subjectDescription);
+        }
+
+
+        //Get Questions By SubjectId
+        [HttpGet("/AllQuestion")]
+        public async Task<IActionResult> GetQuestionList(string subjectId)
+        {
+            var question = await _studentRepository.GetAllQuestion(subjectId);
             return new OkObjectResult(question);
         }
 
-        //QuestionList(GetByLesson)
-        [HttpGet("LessonQuestion")]
-        public IActionResult GetLessonQuestionList(string subjectId, string lessonId)
+        //Get Questions By LessionId
+        [HttpGet("/LessonQuestion")]
+        public async Task<IActionResult> GetLessonQuestionList(string subjectId, string lessonId)
         {
-            var question = _studentRepository.GetLessonQuestion(subjectId, lessonId);
+            var question = await _studentRepository.GetLessonQuestion(subjectId, lessonId);
             return new OkObjectResult(question);
         }
 
-        //AnswerList
-        [HttpGet("AllAnswer")]
-        public IActionResult GetLessonQuestionList(string questionId)
+        //Get Answer By QuestionId
+        [HttpGet("/AllAnswer")]
+        public async Task<IActionResult> GetLessonQuestionList(string questionId)
         {
-            var answer = _studentRepository.GetAnswer(questionId);
+            var answer = await _studentRepository.GetAnswer(questionId);
             return new OkObjectResult(answer);
         }
 
-        //PostQuestion
-        [HttpPost("AddQuestion")]
-        public IActionResult AddQuestion([FromBody] Question question)
+        //Add Question
+        [HttpPost("/AddQuestion")]
+        public async Task<IActionResult> AddQuestion([FromBody] Question question)
         {
             using (var scope = new TransactionScope())
             {
-                _studentRepository.InsertQuestion(question);
+                await _studentRepository.InsertQuestion(question);
                 scope.Complete();
-                return CreatedAtAction(nameof(GetSubjectList), new { id = question.LessonId }, question);
+                return CreatedAtAction(nameof(GetSubjects), new { id = question.LessonId }, question);
             }
         }
 
-        //PostAnswer
-        [HttpPost("AddAnswer")]
-        public IActionResult AddAnswer([FromBody] Answer answer)
+        //Add Answer
+        [HttpPost("/AddAnswer")]
+        public async Task<IActionResult> AddAnswer([FromBody] Answer answer)
         {
             using (var scope = new TransactionScope())
             {
-                _studentRepository.InsertAnswer(answer);
+                await _studentRepository.InsertAnswer(answer);
                 scope.Complete();
-                return CreatedAtAction(nameof(GetSubjectList), new { id = answer.AnswerId }, answer);
+                return CreatedAtAction(nameof(GetSubjects), new { id = answer.AnswerId }, answer);
             }
         }
 
-        //GetSubjectNotification
-        [HttpGet("AllNotification")]
-        public IActionResult GetSubjectNotification(string subjectId)
+        //Get Subject Notifications
+        [HttpGet("/AllNotification")]
+        public async Task<IActionResult> GetSubjectNotification(string subjectId)
         {
-            var subjectNoti = _studentRepository.GetSubjectNoti(subjectId);
+            var subjectNoti = await _studentRepository.GetSubjectNoti(subjectId);
             return new OkObjectResult(subjectNoti);
         }
 

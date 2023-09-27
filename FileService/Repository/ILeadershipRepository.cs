@@ -4,11 +4,11 @@ namespace FileService.Repository
 {
     public interface ILeadershipRepository
     {
-        void ChangeFileName(string fileName, string fileId);
-        void DeleteFile(string fileId);
-        IEnumerable<PersonalFile> GetAllFile(string fileId);
-        IEnumerable<PersonalFile> GetFileByName(string fileName);
-        IEnumerable<PersonalFile> GetFileBySubject(string subjectId);
-        void WriteFile(IFormFile file, string fileName, string subjectId, string fileId);
+        Task ChangeFileName(string fileName, string fileId);
+        Task DeleteFile(string fileId);
+        Task<IEnumerable<PersonalFile>> GetAllFile(string userId);
+        Task<IEnumerable<PersonalFile>> GetFileByName(string userId, string fileName);
+        Task<IEnumerable<PersonalFile>> GetFileBySubject(string userId, string subjectId);
+        Task WriteFile(IFormFile file, string userId, string fileName, string subjectId, string fileId);
     }
 }

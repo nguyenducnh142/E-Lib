@@ -1,4 +1,7 @@
-﻿namespace SubjectService.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SubjectService.Models
 {
     public class Answer
     {

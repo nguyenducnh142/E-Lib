@@ -7,6 +7,5 @@
         public string SubjectDescription { get; set; }
         public string TeacherName { get; set; }
         public DateTime Date { get; set; }
-        public bool Star {  get; set; }
     }
 }

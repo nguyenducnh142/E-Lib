@@ -20,7 +20,7 @@ namespace SubjectService.Repository
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Subject> GetSubjects()
+        public async Task<IEnumerable<Subject>> GetSubjectsNonAproved()
         {
             //GetSubjectNotAproved
             List<string> lessonIds = _dbContext.LessonsFiles.Where(e => e.Approve == false).Select(e => e.LessonId).ToList();
@@ -43,38 +43,40 @@ namespace SubjectService.Repository
         }
 
         
-        public IEnumerable<LessonFile> GetAllLessonNonAprovedFile()
+        public async Task<IEnumerable<LessonFile>> GetLessonFilesNonAproved()
         {
             return _dbContext.LessonsFiles.Where(e => e.Approve==false).ToList();
         }
 
-        public IEnumerable<LessonFile> GetAllLessonFile()
+        public async Task<IEnumerable<LessonFile>> GetLessonFiles()
         {
             return _dbContext.LessonsFiles.ToList();
         }
 
-        public void AproveLessonFile(string lessonFileId)
+        public async Task AproveLessonFile(string lessonFileId)
         {
             var lessonFile = _dbContext.LessonsFiles.Find(lessonFileId);
-            lessonFile.Approve= true;
+            if (lessonFile.Approve == false)
+            {
+                lessonFile.Approve = true;
+            }
+            else
+            {
+                lessonFile.Approve = false;
+            }
             Save();
         }
 
-        public void UnAproveLessonFile(string lessonFileId)
-        {
-            var lessonFile = _dbContext.LessonsFiles.Find(lessonFileId);
-            lessonFile.Approve = false;
-            Save();
-        }
 
-        public IEnumerable<LessonFile> GetLessonFileByName(string lessonFileName)
+        public async Task<IEnumerable<LessonFile>> GetLessonFileByName(string lessonFileName)
         {
-            return _dbContext.LessonsFiles.Where(e => (
+            var lessonFiles = _dbContext.LessonsFiles.Where(e => (
             _dbContext.FuzzySearch(e.LessonFileName) == _dbContext.FuzzySearch(lessonFileName)))
                 .ToList();
+            return lessonFiles;
         }
 
-        public IEnumerable<LessonFile> GetAllLessonFileSorted(string sortby)
+        public async Task<IEnumerable<LessonFile>> SortLessonFiles(string sortby)
         {
             switch (sortby)
             {
@@ -83,6 +85,22 @@ namespace SubjectService.Repository
                 case "approve": return _dbContext.LessonsFiles.OrderBy(e => e.Approve).ToList(); break;
                 default: return _dbContext.LessonsFiles.ToList();
             }
+        }
+
+        public async Task<IEnumerable<Subject>> GetSubjects()
+        {
+            return _dbContext.Subjects.ToList();
+        }
+
+        public async Task<IEnumerable<Lesson>> GetLessons(string subjectId)
+        {
+            return _dbContext.Lessons.ToList();
+        }
+
+        public async Task InsertSubject(Subject subject)
+        {
+            _dbContext.Add(subject);
+            Save();
         }
     }
 }

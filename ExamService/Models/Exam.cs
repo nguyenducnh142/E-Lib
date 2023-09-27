@@ -9,9 +9,9 @@ namespace ExamService.Models
         public string ExamName { get; set;}
         public bool ExamFormal { get; set; }
         public string SubjectId { get; set; }
-        public int Time {  get; set; }
+        public int TimeToLearn {  get; set; }
         public string TeacherId { get; set; }
-        public bool Approve { get; set; }
+        public bool Approve { get; set; } = false;
 
     }
 }

@@ -4,18 +4,21 @@ namespace SubjectService.Repository
 {
     public interface IStudentRepository
     {
-        IEnumerable<Subject> GetSubjects();
-        IEnumerable<Subject> GetSubjectByName(string subjectName);
-        IEnumerable<Subject> GetSubjectSorted();
-        string GetSubjectDescription(string subjectId);
-        IEnumerable<Lesson> GetAllLesson(string subjectId);
-        IEnumerable<LessonFile> GetAllLessonFile(string lessonId);
+        Task<IEnumerable<Subject>> GetSubjects(string classId);
+        Task<IEnumerable<Subject>> GetStarSubjects(string userId);
+        Task<IEnumerable<Subject>> SearchSubjects(string searchInfo);
+        Task<IEnumerable<Subject>> GetSubjectSorted(string classId);
+        Task StarSubject(string subjectId, string userId);
+        Task<string> GetSubjectDescription(string subjectId);
+        Task<IEnumerable<Lesson>> GetLessons(string subjectId);
+        Task<IEnumerable<LessonFile>> GetLessonFilesByLesson(string lessonId);
+        Task<IEnumerable<LessonFile>> GetLessonFilesBySubject(string subjectId);
 
-        IEnumerable<Question> GetAllQuestion(string subjectId);
-        IEnumerable<Question> GetLessonQuestion(string subjectId, string lessonId);
-        IEnumerable<Answer> GetAnswer(string questionId);
-        void InsertQuestion(Question question);
-        void InsertAnswer(Answer answer);
-        IEnumerable<SubjectNotification> GetSubjectNoti(string subjectId);
+        Task<IEnumerable<Question>> GetAllQuestion(string subjectId);
+        Task<IEnumerable<Question>> GetLessonQuestion(string subjectId, string lessonId);
+        Task<IEnumerable<Answer>> GetAnswer(string questionId);
+        Task InsertQuestion(Question question);
+        Task InsertAnswer(Answer answer);
+        Task<IEnumerable<SubjectNotification>> GetSubjectNoti(string subjectId);
     }
 }

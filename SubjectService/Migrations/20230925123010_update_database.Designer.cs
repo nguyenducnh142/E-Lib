@@ -12,8 +12,8 @@ using SubjectService.DBContexts;
 namespace SubjectService.Migrations
 {
     [DbContext(typeof(SubjectContext))]
-    [Migration("20230916093531_subject")]
-    partial class subject
+    [Migration("20230925123010_update_database")]
+    partial class update_database
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,18 +27,16 @@ namespace SubjectService.Migrations
 
             modelBuilder.Entity("SubjectService.Models.Answer", b =>
                 {
-                    b.Property<int>("AnswerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnswerId"));
+                    b.Property<string>("AnswerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AnswerDetail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                    b.Property<string>("QuestionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AnswerId");
 
@@ -47,18 +45,16 @@ namespace SubjectService.Migrations
 
             modelBuilder.Entity("SubjectService.Models.Lesson", b =>
                 {
-                    b.Property<int>("LessonId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonId"));
+                    b.Property<string>("LessonId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LessonName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("SubjectId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LessonId");
 
@@ -67,11 +63,8 @@ namespace SubjectService.Migrations
 
             modelBuilder.Entity("SubjectService.Models.LessonFile", b =>
                 {
-                    b.Property<int>("LessonFileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonFileId"));
+                    b.Property<string>("LessonFileId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Approve")
                         .HasColumnType("bit");
@@ -84,8 +77,17 @@ namespace SubjectService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LessonId")
-                        .HasColumnType("int");
+                    b.Property<string>("LessonId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubjectId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TeacherName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LessonFileId");
 
@@ -94,21 +96,20 @@ namespace SubjectService.Migrations
 
             modelBuilder.Entity("SubjectService.Models.Question", b =>
                 {
-                    b.Property<int>("QuestionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("QuestionId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"));
-
-                    b.Property<int>("LessonId")
-                        .HasColumnType("int");
+                    b.Property<string>("LessonId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuestionDetail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("SubjectId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("QuestionId");
 
@@ -117,11 +118,8 @@ namespace SubjectService.Migrations
 
             modelBuilder.Entity("SubjectService.Models.Subject", b =>
                 {
-                    b.Property<int>("SubjectId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubjectId"));
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -148,14 +146,12 @@ namespace SubjectService.Migrations
 
             modelBuilder.Entity("SubjectService.Models.SubjectNotification", b =>
                 {
-                    b.Property<int>("SubjectNotificationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("SubjectNotificationId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubjectNotificationId"));
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("SubjectId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SubjectNotificationDetail")
                         .IsRequired()

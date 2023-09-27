@@ -1,7 +1,7 @@
-{
+{ //localhost:5008
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Student/AllSubject",
+      "DownstreamPathTemplate": "/api/Subject",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -9,8 +9,32 @@
           "Port": 7063
         }
       ],
-      "UpstreamPathTemplate": "/student/allsubjects",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamPathTemplate": "/allsubjects",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Subject",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/addsubject",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "role": "leadership"
+      }
     }
   ]
 }
