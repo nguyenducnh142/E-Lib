@@ -113,6 +113,32 @@ namespace SubjectService.Migrations
                     b.ToTable("Questions");
                 });
 
+            modelBuilder.Entity("SubjectService.Models.StarSubject", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "SubjectId");
+
+                    b.ToTable("StarSubjects");
+                });
+
+            modelBuilder.Entity("SubjectService.Models.StudentClass", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClassId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "ClassId");
+
+                    b.ToTable("StudentClasses");
+                });
+
             modelBuilder.Entity("SubjectService.Models.Subject", b =>
                 {
                     b.Property<string>("SubjectId")
@@ -120,9 +146,6 @@ namespace SubjectService.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("Star")
-                        .HasColumnType("bit");
 
                     b.Property<string>("SubjectDescription")
                         .IsRequired()
@@ -132,13 +155,26 @@ namespace SubjectService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TeacherName")
+                    b.Property<string>("TeacherId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SubjectId");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("SubjectService.Models.SubjectClass", b =>
+                {
+                    b.Property<string>("ClassId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ClassId", "SubjectId");
+
+                    b.ToTable("SubjectClasses");
                 });
 
             modelBuilder.Entity("SubjectService.Models.SubjectNotification", b =>

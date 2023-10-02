@@ -23,5 +23,6 @@ namespace SubjectService.DBContexts
         public DbSet<SubjectNotification> SubjectNotifications { get; set; }
         public DbSet<SubjectClass> SubjectClasses { get; set; }
         public DbSet<StarSubject> StarSubjects { get; set; }
+        public DbSet<StudentClass> StudentClasses { get; set; }
     }
 }

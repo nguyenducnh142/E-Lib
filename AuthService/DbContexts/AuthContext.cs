@@ -10,8 +10,6 @@ namespace AuthService.DbContexts
 
         }
 
-        public DbSet<AuthenticationToken> AuthenticationTokens{ get; set; }
-        public DbSet<Login> Logins { get; set; }
-        //public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<Account> Accounts { get; set; }
     }
 }

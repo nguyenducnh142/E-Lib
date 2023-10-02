@@ -1,5 +1,6 @@
 using FileService.DbContexts;
 using FileService.Repository;
+using JwtTokenAuthentication;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<FileContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppConn")));
 builder.Services.AddScoped<ILeadershipRepository, LeadershipRepository>();
 builder.Services.AddControllers();
+builder.Services.AddJwtAuthentication();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -23,6 +25,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

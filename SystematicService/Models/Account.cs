@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace SystematicService.Models
 {
@@ -12,7 +13,7 @@ namespace SystematicService.Models
         public string UserName { get; set; }
         public bool Sex { get; set; }
         public string Address { get; set; }
-        public int Role { get; set; }
+        public string Role { get; set; }
 
     }
 }

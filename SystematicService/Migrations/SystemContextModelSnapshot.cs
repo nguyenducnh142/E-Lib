@@ -42,8 +42,9 @@ namespace SystematicService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Sex")
                         .HasColumnType("bit");
@@ -55,6 +56,19 @@ namespace SystematicService.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("SystematicService.Models.StudentClass", b =>
+                {
+                    b.Property<string>("ClassId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("StudentClasses");
                 });
 
             modelBuilder.Entity("SystematicService.Models.SystemInfo", b =>

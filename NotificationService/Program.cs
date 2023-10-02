@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using NotificationService.DBContexts;
+using JwtTokenAuthentication;
 using NotificationService.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<NotificationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppConn")));
-
+builder.Services.AddJwtAuthentication();
 builder.Services.AddControllers();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,6 +25,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -2,7 +2,7 @@
 
 namespace ExamService.Models
 {
-    [Keyless]
+    [PrimaryKey(nameof(ExamId), nameof(QuestionId))]
     public class TNQuestionExam
     {
         public string ExamId { get; set; }

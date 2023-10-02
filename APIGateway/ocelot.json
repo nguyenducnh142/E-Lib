@@ -1,7 +1,23 @@
 { //localhost:5008
   "Routes": [
+    //========================Login========================
     {
-      "DownstreamPathTemplate": "/api/Subject",
+      "DownstreamPathTemplate": "/Login",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7128
+        }
+      ],
+      "UpstreamPathTemplate": "/Login",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    //========================Subject========================
+    //=============Student============
+    //Get Subjects
+    {
+      "DownstreamPathTemplate": "/api/Student/GetSubjects",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -9,8 +25,584 @@
           "Port": 7063
         }
       ],
-      "UpstreamPathTemplate": "/allsubjects",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamPathTemplate": "/Student/GetSubjects",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Search Subject
+    {
+      "DownstreamPathTemplate": "/api/Student/SearchSubjects",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/SearchSubjects",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Sort Subjects
+    {
+      "DownstreamPathTemplate": "/api/Student/SortSubjects",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/SortSubjects",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Get Star Subject
+    {
+      "DownstreamPathTemplate": "/api/Student/GetStarSubjects",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/GetStarSubjects",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Get Lessons
+    {
+      "DownstreamPathTemplate": "/api/Student/GetLessons",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/GetLessons",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      },
+      "Key": "Student_GetLessons"
+    },
+    //Get LessonFiles
+    {
+      "DownstreamPathTemplate": "/api/Student/GetLessonFilesBySubject",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/GetLessonFilesBySubject",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      },
+      "Key": "Student_GetLessonFiles"
+    },
+    //Download LessonFile
+    {
+      "DownstreamPathTemplate": "/api/Student/DownloadFile",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/DownloadFile",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Star Subject
+    {
+      "DownstreamPathTemplate": "/api/Student/StarSubject",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/StarSubject",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Get Subject Description
+    {
+      "DownstreamPathTemplate": "/api/Student/GetSubjectDescription",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/GetSubjectDescription",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Get Subject Notification
+    {
+      "DownstreamPathTemplate": "/api/Student/SubjectNotification",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/SubjectNotification",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Get Subject's Questions
+    {
+      "DownstreamPathTemplate": "/api/Student/AllQuestion",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/AllQuestion",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Get Question's Answers
+    {
+      "DownstreamPathTemplate": "/api/Student/AllAnswer",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/AllAnswer",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Add Question
+    {
+      "DownstreamPathTemplate": "/api/Student/AddQuestion",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/AddQuestion",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Add Answer
+    {
+      "DownstreamPathTemplate": "/api/Student/AddAnswer",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/AddAnswer",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //==============Teacher===========
+    //Get Subjects
+    {
+      "DownstreamPathTemplate": "/api/Teacher/GetSubjects",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetSubjects",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Search Subjects
+    {
+      "DownstreamPathTemplate": "/api/Teacher/SearchSubject",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/SearchSubject",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Sort Subjects
+    {
+      "DownstreamPathTemplate": "/api/Teacher/SortSubjects",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/SortSubjects",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Get Lessons
+    {
+      "DownstreamPathTemplate": "/api/Teacher/GetLessons",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetLessons",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      },
+      "key": "Teacher_GetLessons"
+    },
+    //Get LessonFile
+    {
+      "DownstreamPathTemplate": "/api/Teacher/GetLessonFilesBySubject",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetLessonFilesBySubject",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      },
+      "key": "Teacher_GetLessonfiles"
+    },
+    //Add Lesson
+    {
+      "DownstreamPathTemplate": "/api/Teacher/AddLesson",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/AddLesson",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Change Subject Description
+    {
+      "DownstreamPathTemplate": "/api/Teacher/UpdateSubjectDescription",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/UpdateSubjectDescription",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Change LessonName
+    {
+      "DownstreamPathTemplate": "/api/Teacher/UpdateLessonName",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/UpdateLessonName",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Delete LessonFile
+    {
+      "DownstreamPathTemplate": "/api/Teacher/DeleteLessonFile",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/DeleteLessonFile",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Add LessonFile
+    {
+      "DownstreamPathTemplate": "/api/Teacher/UploadLessonFile",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/UploadLessonFile",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Change LessonFile Name
+    {
+      "DownstreamPathTemplate": "/api/Teacher/UpdateLessonFileName",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/UpdateLessonFileName",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Add Subject Notification
+    {
+      "DownstreamPathTemplate": "/api/Teacher/AddSubjectNotification",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/AddSubjectNotification",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Get Subject's Questions
+    {
+      "DownstreamPathTemplate": "/api/Teacher/AllQuestion",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/AllQuestion",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Get Question's Answers
+    {
+      "DownstreamPathTemplate": "/api/Teacher/AllAnswer",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/AllAnswer",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Add Question
+    {
+      "DownstreamPathTemplate": "/api/Teacher/AddQuestion",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/AddQuestion",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Add Answer
+    {
+      "DownstreamPathTemplate": "/api/Teacher/AddAnswer",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/AddAnswer",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //==============Leadership===========
+    //Get Subjects
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetSubjects",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetSubjects",
+      "UpstreamHttpMethod": [ "GET" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       },
@@ -18,8 +610,9 @@
         "Role": "leadership"
       }
     },
+    //Get Subjects Non Aprove
     {
-      "DownstreamPathTemplate": "/api/Subject",
+      "DownstreamPathTemplate": "/api/Leadership/GetSubjectNonAprove",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -27,13 +620,680 @@
           "Port": 7063
         }
       ],
-      "UpstreamPathTemplate": "/addsubject",
+      "UpstreamPathTemplate": "/Leadership/GetSubjectNonAprove",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get Lessons
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetLessons",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetLessons",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get LessonFile
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetLessonFiles",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetLessonFiles",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get LessonFile NonAproved
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetLessonFilesNonApproved",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetLessonFilesNonApproved",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get LessonFile Sorted
+    {
+      "DownstreamPathTemplate": "/api/Leadership/SortLessonFile/{sortby}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/SortLessonFile/{sortby}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Approve Lesson File
+    {
+      "DownstreamPathTemplate": "/api/Leadership/AproveLessonFile",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/AproveLessonFile",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Search Lesson File
+    {
+      "DownstreamPathTemplate": "/api/Leadership/SearchLessonFile",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/SearchLessonFile",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Add Subject
+    {
+      "DownstreamPathTemplate": "/api/Leadership/AddSubject",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/AddSubject",
       "UpstreamHttpMethod": [ "POST" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       },
       "RouteClaimsRequirement": {
-        "role": "leadership"
+        "Role": "leadership"
+      }
+    },
+    //Add Subject Into Class
+    {
+      "DownstreamPathTemplate": "/api/Leadership/AddSubjectIntoClass",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7063
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/AddSubjectIntoClass",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //========================Account========================
+    //Get Infomation
+    {
+      "DownstreamPathTemplate": "/api/Account/GetUserDetail",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7269
+        }
+      ],
+      "UpstreamPathTemplate": "/GetUserDetail",
+      "UpstreamHttpMethod": [ "GET" ],
+      "key": "Get_Info"
+    },
+    //Get Avatar
+    {
+      "DownstreamPathTemplate": "/api/Account/GetAvatar",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7269
+        }
+      ],
+      "UpstreamPathTemplate": "/GetAvatar",
+      "UpstreamHttpMethod": [ "GET" ],
+      "key": "Get_Ava"
+    },
+    //Upload Avatar
+    {
+      "DownstreamPathTemplate": "/api/Account/UploadAva",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7269
+        }
+      ],
+      "UpstreamPathTemplate": "/UploadAva",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    //Delete Avatar
+    {
+      "DownstreamPathTemplate": "/api/Account/DeleteAva",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7269
+        }
+      ],
+      "UpstreamPathTemplate": "/DeleteAva",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    //Delete Avatar
+    {
+      "DownstreamPathTemplate": "/api/Account/ChangePassword",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7269
+        }
+      ],
+      "UpstreamPathTemplate": "/ChangePassword",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    //========================Exam========================
+    //=============Teacher============
+    //Get Exams
+    {
+      "DownstreamPathTemplate": "/api/Teacher/GetAllExam",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetAllExam",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Get Exams By Subject
+    {
+      "DownstreamPathTemplate": "/api/Teacher/GetExamBySubject",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetExamBySubject",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Search Exam
+    {
+      "DownstreamPathTemplate": "/api/Teacher/GetExamByName",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetExamByName",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Create Exam
+    {
+      "DownstreamPathTemplate": "/api/Teacher/AddExam",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/AddExam",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Add TLQuestion
+    {
+      "DownstreamPathTemplate": "/api/Teacher/AddTLQuestion",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/AddTLQuestion",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Add TNQuestion Into Exam
+    {
+      "DownstreamPathTemplate": "/api/Teacher/AddTNQuesitonIntoExam",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/AddTNQuesitonIntoExam",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Add TNQuestion
+    {
+      "DownstreamPathTemplate": "/api/Teacher/AddTNQuestion",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/AddTNQuestion",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Get Exam
+    {
+      "DownstreamPathTemplate": "/api/Teacher/GetExamDetail",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetExamDetail",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Change ExamName
+    {
+      "DownstreamPathTemplate": "/api/Teacher/ChangeExamName",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/ChangeExamName",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Get TNQuestions Bank
+    {
+      "DownstreamPathTemplate": "/api/Teacher/GetTNQuestions",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetTNQuestions",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Get TNQuestion
+    {
+      "DownstreamPathTemplate": "/api/Teacher/GetTNQuestion",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetTNQuestion",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Change TNQuestionDetail
+    {
+      "DownstreamPathTemplate": "/api/Teacher/ChangeTNQuestionDetail",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/ChangeTNQuestionDetail",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Delete Question
+    {
+      "DownstreamPathTemplate": "/api/Teacher/DeleteQuestion",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/DeleteQuestion",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Create Exam By QuestionsBank
+    {
+      "DownstreamPathTemplate": "/api/Teacher/InsertQuestionFromBank",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/InsertQuestionFromBank",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Get Exam's Questions
+    {
+      "DownstreamPathTemplate": "/api/Teacher/GetExamQuestions",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetExamQuestions",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //=============Leadership============
+    //Get Exams
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetAllExam",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetAllExam",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Sort Exams
+    {
+      "DownstreamPathTemplate": "/api/Leadership/SortExams",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/SortExams",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Search Exam
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetExamByName",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetExamByName",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get Exam
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetExamDetail",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetExamDetail",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get Exam's Questions
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetExamQuestions",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetExamQuestions",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Aprove/Un-Aprove Exam
+    {
+      "DownstreamPathTemplate": "/api/Leadership/ChangeApproveExam",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7085
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/ChangeApproveExam",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    }
+  ],
+  //====================================Aggregates======================
+  "Aggregates": [
+    {
+      "RouteKeys": [
+        "Student_GetLessons",
+        "Student_GetLessonFiles"
+      ],
+      "UpstreamPathTemplate": "/Student/GetSubject",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    {
+      "RouteKeys": [
+        "Teacher_GetLessons",
+        "Teacher_GetLessonfiles"
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetSubject",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    {
+      "RouteKeys": [
+        "Get_Info",
+        "Get_Ava"
+      ],
+      "UpstreamPathTemplate": "/GetUserInfo",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher, student, leadership"
       }
     }
   ]

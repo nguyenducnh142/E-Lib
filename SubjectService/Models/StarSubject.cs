@@ -2,7 +2,7 @@
 
 namespace SubjectService.Models
 {
-    [Keyless]
+    [PrimaryKey(nameof(UserId), nameof(SubjectId))]
     public class StarSubject
     {
         public string UserId { get; set; }

@@ -1,14 +1,17 @@
 ﻿using AccountService.DbContexts;
 using AccountService.Models;
+using NotificationService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using System.Security.Principal;
+using System.Security.AccessControl;
 
 namespace AccountService.Repository
 {
     public class AccountRepository : IAccountRepository
     {
         private readonly AccountContext _dbContext;
+        
 
         public AccountRepository(AccountContext dbContext)
         {
@@ -19,19 +22,10 @@ namespace AccountService.Repository
             _dbContext.SaveChanges();
         }
 
+        
 
-        public Account GetAccountDetail(string accountId)
-        {
-            return _dbContext.Accounts.Find(accountId);
-        }
 
-        public void InsertAccount(Account account)
-        {
-            _dbContext.Add(account);
-            Save();
-        }
-
-        public string WriteFile(IFormFile file, string userId)
+        public async Task<string> WriteFile(IFormFile file, string userId)
         {
             string filename = "";
             try
@@ -59,7 +53,7 @@ namespace AccountService.Repository
             return filename;
         }
 
-        public void DeleteAvatar(string fileName)
+        public async Task DeleteAvatar(string fileName)
         {
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files");
             string filePath = fileName;
@@ -77,16 +71,24 @@ namespace AccountService.Repository
         public string ChangePassword(string userId, string oldPassword, string newPassword)
         {
             var account = _dbContext.Accounts.Find(userId);
-            if (_dbContext.Accounts.Find(userId).Password == oldPassword)
+            if(account.Password != oldPassword)
+            {
+                return "Wrong pass" ;
+            }
+            else
             {
                 account.Password = newPassword;
                 Save();
-                return "Change Password Success!!";
+                return "Success!!!";
             }
-            return "Change Password Fail!!";
-
+            
         }
 
-        
+        public Account GetAccount(string userId)
+        {
+            return _dbContext.Accounts.Find(userId);
+        }
+
+       
     }
 }

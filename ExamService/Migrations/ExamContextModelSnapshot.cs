@@ -29,8 +29,9 @@ namespace ExamService.Migrations
                     b.Property<bool>("Approve")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("ExamFormal")
-                        .HasColumnType("bit");
+                    b.Property<string>("ExamFormal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ExamName")
                         .IsRequired()
@@ -44,7 +45,7 @@ namespace ExamService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Time")
+                    b.Property<int>("TimeToLearn")
                         .HasColumnType("int");
 
                     b.HasKey("ExamId");
@@ -95,10 +96,6 @@ namespace ExamService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ExamId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("QuestionDetail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -106,12 +103,22 @@ namespace ExamService.Migrations
                     b.Property<int>("QuestionType")
                         .HasColumnType("int");
 
-                    b.Property<bool>("QuestionUsed")
-                        .HasColumnType("bit");
-
                     b.HasKey("QuestionId");
 
                     b.ToTable("TNQuestions");
+                });
+
+            modelBuilder.Entity("ExamService.Models.TNQuestionExam", b =>
+                {
+                    b.Property<string>("ExamId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("QuestionId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ExamId", "QuestionId");
+
+                    b.ToTable("TNQuestionExams");
                 });
 #pragma warning restore 612, 618
         }

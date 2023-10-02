@@ -4,9 +4,10 @@ namespace SubjectService.Repository
 {
     public interface IStudentRepository
     {
+        string GetClass(string userId);
         Task<IEnumerable<Subject>> GetSubjects(string classId);
         Task<IEnumerable<Subject>> GetStarSubjects(string userId);
-        Task<IEnumerable<Subject>> SearchSubjects(string searchInfo);
+        IEnumerable<Subject> SearchSubjects(string searchInfo, string classId);
         Task<IEnumerable<Subject>> GetSubjectSorted(string classId);
         Task StarSubject(string subjectId, string userId);
         Task<string> GetSubjectDescription(string subjectId);
@@ -20,5 +21,6 @@ namespace SubjectService.Repository
         Task InsertQuestion(Question question);
         Task InsertAnswer(Answer answer);
         Task<IEnumerable<SubjectNotification>> GetSubjectNoti(string subjectId);
+        string GetSubjectId(string questionId);
     }
 }

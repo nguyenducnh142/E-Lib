@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using HelpService.DBContexts;
+using JwtTokenAuthentication;
 using HelpService.Model;
 using HelpService.Repository;
 //using HelpService.Repository;
@@ -12,8 +12,8 @@ var emailConfig = builder.Configuration
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IHelpRepository, HelpRepository>();
 // Add services to the container.
-builder.Services.AddDbContext<HelpContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppConn")));
 builder.Services.AddControllers();
+builder.Services.AddJwtAuthentication();
 //builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -30,6 +30,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

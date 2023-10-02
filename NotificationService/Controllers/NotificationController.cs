@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NotificationService.Models;
 using NotificationService.Repository;
+using System.Security.Claims;
 
 namespace NotificationService.Controllers
 {
@@ -16,60 +17,65 @@ namespace NotificationService.Controllers
         {
             _notificationRepository = notificationRepository;
         }
-
-        //Xem thông báo môn học.
-        [HttpGet("GetSubjectNoti")]
-        public IActionResult GetSubjectNoti()
+        //Get Current UserDetail
+        private string GetUserId()
         {
-            var noti = _notificationRepository.GetSubjectNoti();
+            string id = Convert.ToString(HttpContext.User.FindFirstValue("name"));
+            return id;
+        }
+
+        //Get Subjects Noti
+        [HttpGet("/GetSubjectNoti")]
+        public async Task<IActionResult> GetSubjectNoti()
+        {
+            var noti = await _notificationRepository.GetSubjectNoti();
             return new OkObjectResult(noti);
         }
 
-        //Xem thông báo câu hỏi
-        [HttpGet("GetQuestionNoti")]
-        public IActionResult GetQuestionNoti()
+        //Get Questions Noti
+        [HttpGet("/GetQuestionNoti")]
+        public async Task<IActionResult> GetQuestionNoti()
         {
-            var noti = _notificationRepository.GetQuestionNoti();
+            var noti = await _notificationRepository.GetQuestionNoti();
             return new OkObjectResult(noti);
         }
 
-        //Xem thông báo thông tin tài khoản 
-        [HttpGet("GetAccountNoti")]
-        public IActionResult GetAccountNoti(string userId)
+        //Get Account Noti
+        [HttpGet("/GetAccountNoti")]
+        public async Task<IActionResult> GetAccountNoti()
         {
-            var noti = _notificationRepository.GetAccountNoti();
+            var noti = await _notificationRepository.GetAccountNoti(GetUserId());
             return new OkObjectResult(noti);
         }
 
-        //Tìm kiếm thông báo theo nội dung 
-        [HttpGet]
-        public IActionResult FindNotiByDetail(string notiDetail)
+        //Search Notis
+        [HttpGet("/SearchNoti/{notiDetail}")]
+        public async Task<IActionResult> FindNotiByDetail(string notiDetail)
         {
-            var noti = _notificationRepository.FindNoti(notiDetail);
-            return new OkObjectResult(noti);
+            var notis = await _notificationRepository.FindNoti(notiDetail);
+            return new OkObjectResult(notis);
         }
 
-        //Xem thông báo tất cả môn học (api gateway)
 
-        //Thêm thông báo (hệ thống)
-        [HttpPost]
-        public IActionResult AddNoti(Notification notification)
+        //Add Noti (System)
+        [HttpPost("/AddNoti")]
+        public async Task<IActionResult> AddNoti(string subjectId, string notiDetail)
         {
-            _notificationRepository.AddNoti(notification);
-            return new OkObjectResult(notification);
+            await _notificationRepository.AddNoti(subjectId, notiDetail);
+            return new OkObjectResult(subjectId);
         }
-        [HttpPost]
-        public IActionResult AddPersonalNoti(PersonalNotification notification)
+        [HttpPost("/AddUserNoti")]
+        public async Task<IActionResult> AddPersonalNoti(string userId, string notiDetail)
         {
-            _notificationRepository.AddPersonalNoti(notification);
-            return new OkObjectResult(notification);
+            await _notificationRepository.AddPersonalNoti(userId, notiDetail);
+            return new OkObjectResult(userId);
         }
 
-        //Xóa thông báo
-        [HttpDelete]
-        public IActionResult DeleteNoti(string notiId)
+        //Delete Noti
+        [HttpDelete("/DeleteNoti")]
+        public async Task<IActionResult> DeleteNoti(int notiId)
         {
-            _notificationRepository.DeleteNoti(notiId);
+            await _notificationRepository.DeleteNoti(notiId);
             return new OkObjectResult(notiId);
         }
 

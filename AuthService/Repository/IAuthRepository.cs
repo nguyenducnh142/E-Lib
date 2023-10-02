@@ -4,6 +4,6 @@ namespace AuthService.Repository
 {
     public interface IAuthRepository
     {
-        AuthenticationToken GenerateAuthToken(Login user, string role);
+        AuthenticationToken GenerateAuthToken(Login user);
     }
 }

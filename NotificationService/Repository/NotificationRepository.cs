@@ -11,24 +11,32 @@ namespace NotificationService.Repository
         {
             _notificationContext = notificationContext;
         }
-        private void Save()
+        private async Task Save()
         {
             _notificationContext.SaveChanges();
         }
 
-        public void AddNoti(Notification notification)
+        public async Task AddNoti(string subjectId, string notiDetail)
         {
-            _notificationContext.Add(notification);
-            Save();
+            var noti = new Notification();
+            noti.SubjectId = subjectId;
+            noti.NotificaitonDetail = notiDetail;
+            noti.NotificationType = "subject";
+            noti.DateTime = DateTime.Now;
+            _notificationContext.Add(noti);
+            await Save();
         }
 
-        public void AddPersonalNoti(PersonalNotification notification)
+        public async Task AddPersonalNoti(string userId, string notiDetail)
         {
-            _notificationContext.Add(notification);
-            Save();
+            var noti = new UserNotification();
+            noti.UserId = userId;
+            noti.NotificationDetail = notiDetail;
+            _notificationContext.Add(noti);
+            await Save();
         }
 
-        public void DeleteNoti(string notiId)
+        public async Task DeleteNoti(int notiId)
         {
             var noti = _notificationContext.Notifications.Find(notiId);
             if (noti != null)
@@ -37,33 +45,33 @@ namespace NotificationService.Repository
             }
             else
             {
-                var personalNoti = _notificationContext.PersonalNotifications.Find(notiId);
-                _notificationContext.PersonalNotifications.Remove(personalNoti);
+                var personalNoti = _notificationContext.UserNotifications.Find(notiId);
+                _notificationContext.UserNotifications.Remove(personalNoti);
             }
             
             Save();
 
         }
 
-        public IEnumerable<Notification> FindNoti(string notiDetail)
+        public async Task<IEnumerable<Notification>> FindNoti(string notiDetail)
         {
             var noti = _notificationContext.Notifications.Where(e => _notificationContext.FuzzySearch(e.NotificaitonDetail) == _notificationContext.FuzzySearch(notiDetail)).ToList();
             return noti;
         }
 
-        public IEnumerable<PersonalNotification> GetAccountNoti()
+        public async Task<IEnumerable<UserNotification>> GetAccountNoti(string userId)
         {
-            return _notificationContext.PersonalNotifications.ToList();
+            return _notificationContext.UserNotifications.Where(e=>e.UserId==userId).ToList();
         }
 
-        public IEnumerable<Notification> GetQuestionNoti()
+        public async Task<IEnumerable<Notification>> GetQuestionNoti()
         {
-            return _notificationContext.Notifications.Where(e => e.NotificationTypeId == 2).ToList();
+            return _notificationContext.Notifications.Where(e => e.NotificationType == "question").ToList();
         }
 
-        public IEnumerable<Notification> GetSubjectNoti()
+        public async Task<IEnumerable<Notification>> GetSubjectNoti()
         {
-            return _notificationContext.Notifications.Where(e => e.NotificationTypeId == 1).ToList();
+            return _notificationContext.Notifications.Where(e => e.NotificationType == "subject").ToList();
         }
     }
 }

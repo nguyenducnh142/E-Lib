@@ -13,6 +13,5 @@ namespace ExamService.Models
         public string AnswerC { get; set;}
         public string AnswerD { get; set;}
         public string CorrectAnswer { get; set;}
-        public bool QuestionUsed { get; set;} = false;
     }
 }

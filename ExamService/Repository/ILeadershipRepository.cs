@@ -1,7 +1,13 @@
-﻿namespace ExamService.Repository
+﻿using ExamService.Models;
+
+namespace ExamService.Repository
 {
     public interface ILeadershipRepository
     {
-        void ChangeApproveExam(string examId);
+
+        Task ChangeApproveExam(string examId);
+        IEnumerable<Exam> GetExamByName(string examName);
+        IEnumerable<Exam> GetExams();
+        Task<IEnumerable<Exam>> SortExams(string sort);
     }
 }

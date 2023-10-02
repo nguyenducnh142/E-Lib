@@ -47,7 +47,7 @@ namespace SubjectService.Repository
             Save();
         }
 
-        public async Task DeleteLessonFile(string lessonFileName)
+        public async Task DeleteLessonFile(string lessonFileId)
         {
 
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files");
@@ -57,7 +57,7 @@ namespace SubjectService.Repository
                 Directory.CreateDirectory(filepath);
             }
 
-            var exactpath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files", lessonFileName);
+            var exactpath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files", lessonFileId);
             File.SetAttributes(filepath, FileAttributes.Normal);
             File.Delete(exactpath);
 
@@ -82,12 +82,15 @@ namespace SubjectService.Repository
             Save();
         }
 
-        public async Task WriteFile(IFormFile file, string lessonFileName, string lessonId, string lessonFileDescription)
+        public async Task WriteFile(IFormFile file,string lessonFileId, string lessonFileName, string lessonId, string lessonFileDescription)
         {
             LessonFile lessonFile = new LessonFile();
+            lessonFile.LessonFileId = lessonFileId;
             lessonFile.LessonId = lessonId;
             lessonFile.LessonFileName = lessonFileName;
             lessonFile.LessonFileDescription = lessonFileDescription;
+            lessonFile.SubjectId = _dbContext.Lessons.Find(lessonId).SubjectId;
+            lessonFile.TeacherName = _dbContext.Subjects.Find(lessonFile.SubjectId).TeacherId;
             _dbContext.Add(lessonFile);
             Save();
             string filename = "";
@@ -116,9 +119,9 @@ namespace SubjectService.Repository
 
         }
 
-        public async Task<IEnumerable<Subject>> GetSubjects(string teacherName)
+        public async Task<IEnumerable<Subject>> GetSubjects(string teacherId)
         {
-            var subjects = _dbContext.Subjects.Where(e => e.TeacherName == teacherName).ToList();
+            var subjects = _dbContext.Subjects.Where(e => e.TeacherId == teacherId).ToList();
             return subjects;
         }
 
@@ -131,9 +134,9 @@ namespace SubjectService.Repository
             return subjects;
         }
 
-        public async Task<IEnumerable<Subject>> SortedSubjects(string teacherName)
+        public async Task<IEnumerable<Subject>> SortedSubjects(string teacherId)
         {
-            var subjects = await GetSubjects(teacherName);
+            var subjects = await GetSubjects(teacherId);
             return subjects.OrderBy(e => e.SubjectName).ToList();
         }
 
@@ -158,9 +161,9 @@ namespace SubjectService.Repository
             return lessonFiles;
         }
 
-        public async Task<IEnumerable<SubjectClass>> GetClass(string teacherName)
+        public async Task<IEnumerable<SubjectClass>> GetClass(string teacherId)
         {
-            var subjects = await GetSubjects(teacherName);
+            var subjects = await GetSubjects(teacherId);
             var subjectClasses = new List<SubjectClass>();
             foreach (var subject in subjects)
             {

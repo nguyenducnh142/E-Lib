@@ -80,9 +80,9 @@ namespace SubjectService.Repository
         {
             switch (sortby)
             {
-                case "name": return _dbContext.LessonsFiles.OrderBy(e => e.SubjectId).ToList(); break;
-                case "teacher": return _dbContext.LessonsFiles.OrderBy(e => e.TeacherName).ToList(); break;
-                case "approve": return _dbContext.LessonsFiles.OrderBy(e => e.Approve).ToList(); break;
+                case "name": return _dbContext.LessonsFiles.OrderBy(e => e.SubjectId).ToList();
+                case "teacher": return _dbContext.LessonsFiles.OrderBy(e => e.TeacherName).ToList();
+                case "approve": return _dbContext.LessonsFiles.OrderBy(e => e.Approve).ToList();
                 default: return _dbContext.LessonsFiles.ToList();
             }
         }
@@ -101,6 +101,24 @@ namespace SubjectService.Repository
         {
             _dbContext.Add(subject);
             Save();
+        }
+
+        public string GetSubjectId(string lessonFileId)
+        {
+            return _dbContext.LessonsFiles.Find(lessonFileId).SubjectId;
+        }
+
+        public void AddSubjectIntoClass(string subjectid, string classId)
+        {
+            var tmp = _dbContext.SubjectClasses.Where(e => e.SubjectId == subjectid && e.ClassId == classId).FirstOrDefault();
+            if (tmp == null)
+            {
+                var subjectClass = new SubjectClass();
+                subjectClass.SubjectId = subjectid;
+                subjectClass.ClassId = classId;
+                _dbContext.Add(subjectClass);
+                Save();
+            }
         }
     }
 }

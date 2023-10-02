@@ -14,7 +14,8 @@ namespace SystematicService.DbContexts
             throw new NotImplementedException();
         }
 
-        public DbSet<Account> Accounts { get; set; }
         public DbSet<SystemInfo> SystemInfos { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<StudentClass> StudentClasses { get; set; }
     }
 }

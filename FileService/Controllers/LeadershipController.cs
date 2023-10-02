@@ -3,6 +3,7 @@ using FileService.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using System.Security.Claims;
 using System.Transactions;
 
 namespace FileService.Controllers
@@ -16,6 +17,12 @@ namespace FileService.Controllers
         public LeadershipController(ILeadershipRepository leadershipRepository)
         {
             _leadershipRepository = leadershipRepository;
+        }
+        //Get Current UserDetail
+        private string GetUserId()
+        {
+            string id = Convert.ToString(HttpContext.User.FindFirstValue("name"));
+            return id;
         }
 
         //Delete File
@@ -53,26 +60,26 @@ namespace FileService.Controllers
 
         //Get All File 
         [HttpGet("/GetAllFile")]
-        public async Task<IActionResult> GetAllFile(string userId)
+        public async Task<IActionResult> GetAllFile()
         {
-            var file = await _leadershipRepository.GetAllFile(userId);
+            var file = await _leadershipRepository.GetAllFile(GetUserId());
             return new OkObjectResult(file);
         }
 
         //Search File By FileName
         [HttpGet("/GetFileByName/{fileName}")]
-        public async Task<IActionResult> GetFileByName(string userId, string fileName)
+        public async Task<IActionResult> GetFileByName( string fileName)
         {
-            var file = await _leadershipRepository.GetFileByName(userId, fileName);
+            var file = await _leadershipRepository.GetFileByName(GetUserId(), fileName);
             return new OkObjectResult(file);
         }
 
 
         //Search File By SubjectId
         [HttpGet("/GetFileBySubject/{subjectId}")]
-        public async Task<IActionResult> GetFileBySubject(string userId, string subjectId)
+        public async Task<IActionResult> GetFileBySubject( string subjectId)
         {
-            var file = await _leadershipRepository.GetFileBySubject(userId, subjectId);
+            var file = await _leadershipRepository.GetFileBySubject(GetUserId(), subjectId);
             return new OkObjectResult(file);
         }
 

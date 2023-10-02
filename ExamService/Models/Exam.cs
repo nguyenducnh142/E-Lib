@@ -7,7 +7,8 @@ namespace ExamService.Models
         [Key]
         public string ExamId { get; set; }
         public string ExamName { get; set;}
-        public bool ExamFormal { get; set; }
+        public string ExamFormal { get; set; }
+        //TN / TL
         public string SubjectId { get; set; }
         public int TimeToLearn {  get; set; }
         public string TeacherId { get; set; }

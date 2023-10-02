@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using NotificationService.Models;
 using System.Collections.Generic;
 
@@ -17,7 +18,10 @@ namespace NotificationService.DBContexts
             throw new NotImplementedException();
         }
         public DbSet<Notification> Notifications{ get; set; }
-        public DbSet<PersonalNotification> PersonalNotifications { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; set; }
+        public DbSet<StudentClass> studentClasses { get; set; }
+        public DbSet<SubjectClass> subjectClasses { get; set; }
+
 
     }
 }

@@ -34,8 +34,8 @@ namespace FileService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Size")
-                        .HasColumnType("int");
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("SubjectId")
                         .IsRequired()

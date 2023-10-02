@@ -13,93 +13,111 @@ namespace SubjectService.Controllers
     public class LeadershipController : ControllerBase
     {
         private readonly ILeadershipRepository _leadershipRepository;
+        private readonly NotificationService.Repository.INotificationRepository _notificationRepository;
 
-        public LeadershipController(ILeadershipRepository leadershipRepository)
+        public LeadershipController(ILeadershipRepository leadershipRepository, NotificationService.Repository.INotificationRepository notificationRepository = null)
         {
             _leadershipRepository = leadershipRepository;
+            _notificationRepository = notificationRepository;
         }
-        
+
         //Get Subjects
-        [HttpGet("/GetSubjects")]
-        public async Task<IActionResult> GetSubjects()
+        [HttpGet("GetSubjects")]
+        public IActionResult GetSubjects()
         {
-            var subjects = await _leadershipRepository.GetSubjects();
+            var subjects = _leadershipRepository.GetSubjects();
             return new OkObjectResult(subjects);
         }
 
         //Get SubjectNonApprove
-        [HttpGet("/GetSubjectNonAprove")]
-        public async Task<IActionResult> GetSubjectNonAproved()
+        [HttpGet("GetSubjectNonAprove")]
+        public IActionResult GetSubjectNonAproved()
         {
-            var subjects = await _leadershipRepository.GetSubjectsNonAproved();
+            var subjects =  _leadershipRepository.GetSubjectsNonAproved();
             return new OkObjectResult(subjects);
         }
 
         //Get Lessons By SubjectId
-        [HttpGet("/GetLessons/{subjectId}")]
-        public async Task<IActionResult> GetLessonList(string subjectId)
+        [HttpGet("GetLessons")]
+        public IActionResult GetLessonList(string subjectId)
         {
-            var lesson = await _leadershipRepository.GetLessons(subjectId);
+            var lesson =_leadershipRepository.GetLessons(subjectId);
             return new OkObjectResult(lesson);
         }
 
         //Get LessonFiles
-        [HttpGet("/GetLessonFiles")]
-        public async Task<IActionResult> GetLessonFiles()
+        [HttpGet("GetLessonFiles")]
+        public IActionResult GetLessonFiles()
         {
-            var lessonFile = await _leadershipRepository.GetLessonFiles();
+            var lessonFile =_leadershipRepository.GetLessonFiles();
             return new OkObjectResult(lessonFile);
         }
 
         //Get LessonFiles Non Aproved
-        [HttpGet("/GetLessonFilesNonApproved")]
-        public async Task<IActionResult> GetLessonFileNonAprovedList()
+        [HttpGet("GetLessonFilesNonApproved")]
+        public IActionResult GetLessonFileNonAprovedList()
         {
-            var lessonFile = await _leadershipRepository.GetLessonFilesNonAproved();
+            var lessonFile = _leadershipRepository.GetLessonFilesNonAproved();
             return new OkObjectResult(lessonFile);
         }
 
         //Sort LessonFiles
-        [HttpGet("/SortLessonFile/{sortby}")]
-        public async Task<IActionResult> GetLessonFileListSorted(string sortby)
+        [HttpGet("SortLessonFile/{sortby}")]
+        public IActionResult GetLessonFileListSorted(string sortby)
         {
-            var lessonFile = await _leadershipRepository.SortLessonFiles(sortby);
+            var lessonFile = _leadershipRepository.SortLessonFiles(sortby);
             return new OkObjectResult(lessonFile);
         }
 
 
 
         //Aprove/UnAprove LessonFile
-        [HttpPut("/AproveLessonFile/{lessonFileId}")]
-        public async Task<IActionResult> AproveLessonFile(string lessonFileId)
+        [HttpPut("AproveLessonFile")]
+        public IActionResult AproveLessonFile(string lessonFileId)
         {
             using (var scope = new TransactionScope())
             {
-                await _leadershipRepository.AproveLessonFile(lessonFileId);
+                _leadershipRepository.AproveLessonFile(lessonFileId);
+                _notificationRepository.AddNoti(GetSubjectId(lessonFileId), "Môn học" + GetSubjectId(lessonFileId) + "của bạn đã được thêm tài liệu mới");
                 scope.Complete();
                 return new OkResult();
             }
+            
         }
 
-
-        //Search LessonFile
-        [HttpGet("/SearchLessonFile/{lessonFileName}")]
-        public async Task<IActionResult> GetLessonFileByName(string lessonFileName)
+        //Get SubjectId by LessonFileId
+        private string GetSubjectId(string lessonFileId)
         {
-            var lessonFile = await _leadershipRepository.GetLessonFileByName(lessonFileName);
+            return _leadershipRepository.GetSubjectId(lessonFileId);
+        }
+        
+        //Search LessonFile
+        [HttpGet("SearchLessonFile")]
+        public IActionResult GetLessonFileByName(string lessonFileName)
+        {
+            var lessonFile = _leadershipRepository.GetLessonFileByName(lessonFileName);
             return new OkObjectResult(lessonFile);
         }
 
         //Add Subject
-        [HttpPost("/AddSubject")]
-        public async Task<IActionResult> AddSubject( Subject subject)
+        [HttpPost("AddSubject")]
+        public IActionResult AddSubject( Subject subject)
         {
             using (var scope = new TransactionScope())
             {
-                await _leadershipRepository.InsertSubject(subject);
+                _leadershipRepository.InsertSubject(subject);
+                _notificationRepository.AddNoti(subject.SubjectId, "Môn học" + subject.SubjectName + "đã được thêm");
                 scope.Complete();
                 return CreatedAtAction(nameof(GetSubjects), new { id = subject.SubjectId }, subject);
             }
+        }
+
+        //Add Subject Into Class
+        [HttpPut("AddSubjectIntoClass")]
+        public IActionResult AddSubjectIntoClass(SubjectClass subjectClass)
+        {
+            _leadershipRepository.AddSubjectIntoClass(subjectClass.SubjectId,subjectClass.ClassId);
+            return new OkObjectResult(" Thêm thành công môn học "+subjectClass.SubjectId+" vào lớp "+subjectClass.ClassId);
         }
     }
 }

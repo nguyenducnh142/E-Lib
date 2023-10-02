@@ -1,34 +1,20 @@
-﻿using HelpService.DBContexts;
-using HelpService.Model;
-using HelpService.Models;
+﻿using HelpService.Model;
 using MailKit.Net.Smtp;
-using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 
 namespace HelpService.Repository
 {
     public class HelpRepository : IHelpRepository
     {
-        private readonly HelpContext _dbContext;
         private readonly EmailConfiguration _emailConfig;
-        public HelpRepository(HelpContext helpContext, EmailConfiguration emailConfig)
+        public HelpRepository( EmailConfiguration emailConfig)
         {
-            _dbContext = helpContext;
             _emailConfig = emailConfig;
         }
 
-        public void Save()
-        {
-            _dbContext.SaveChanges();
-        }
-        public void SendHelp(Help help)
-        {
-            _dbContext.Add(help);
-            Save();
 
-        }
 
-        public void SendEmail(Message message)
+        public async Task SendEmail(Message message)
         {
             var emailMessage = CreateEmailMessage(message);
             Send(emailMessage);

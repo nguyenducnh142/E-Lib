@@ -21,29 +21,41 @@ namespace AuthService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AuthService.Models.AuthenticationToken", b =>
+            modelBuilder.Entity("AuthService.Models.Account", b =>
                 {
-                    b.Property<int>("ExpiresIn")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Token")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("AuthenticationTokens");
-                });
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-            modelBuilder.Entity("AuthService.Models.Login", b =>
-                {
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Logins");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Sex")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Accounts");
                 });
 #pragma warning restore 612, 618
         }

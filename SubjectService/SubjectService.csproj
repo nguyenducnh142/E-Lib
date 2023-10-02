@@ -22,5 +22,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\JwtTokenAuthentication\JwtTokenAuthentication.csproj" />
+		<ProjectReference Include="..\NotificationService\NotificationService.csproj" />
 	</ItemGroup>
 </Project>

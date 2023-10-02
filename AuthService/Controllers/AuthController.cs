@@ -16,10 +16,11 @@ namespace AuthService.Controllers
             _authRepository = authRepository;
         }
 
-        [HttpPost]
-        public IActionResult Login([FromBody] Login user, string role)
+        //Login
+        [HttpPost("/Login")]
+        public IActionResult Login([FromBody]Login user)
         {
-            var loginResult = _authRepository.GenerateAuthToken(user, role);
+            var loginResult = _authRepository.GenerateAuthToken(user);
 
             return loginResult is null ? Unauthorized() : Ok(loginResult);
         }

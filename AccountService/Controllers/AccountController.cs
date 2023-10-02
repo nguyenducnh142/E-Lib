@@ -1,9 +1,7 @@
-﻿using AccountService.Models;
-using AccountService.Repository;
-using Microsoft.AspNetCore.Http;
+﻿using AccountService.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.StaticFiles;
-using System.Transactions;
+using System.Security.Claims;
+using NotificationService;
 
 namespace AccountService.Controllers
 {
@@ -12,31 +10,41 @@ namespace AccountService.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly NotificationService.Repository.INotificationRepository _notificationRepository;
 
-        public AccountController(IAccountRepository accountRepository)
+        public AccountController(IAccountRepository accountRepository, NotificationService.Repository.INotificationRepository notificationRepository)
         {
             _accountRepository = accountRepository;
+            _notificationRepository = notificationRepository;
         }
 
-        [HttpGet("/GetAccountDetail/{accountId}")]
-        public IActionResult GetAccountDetail(string  accountId)
+        //Get Current UserDetail
+        private string GetUserId()
         {
-            var account = _accountRepository.GetAccountDetail(accountId);
-            return new OkObjectResult(account);
+            string id = Convert.ToString(HttpContext.User.FindFirstValue("name"));
+            return id;
         }
-
-        [HttpPost("AddAccount")]
-        public IActionResult AddAccount(Account account)
+        private string GetUserRole()
         {
-            _accountRepository.InsertAccount(account);
-            return Ok();
-        
+            string role = Convert.ToString(HttpContext.User.FindFirstValue("Role"));
+            return role;
         }
 
+        //Get Current User Info
+        [HttpGet("GetUserDetail")]
+        public IActionResult GetAccountDetail()
+        {
+            
+             return new OkObjectResult( _accountRepository.GetAccount(GetUserId()));
+        }
+
+
+
+        //Get CurrentUser Avatar
         [HttpGet("GetAvatar")]
-        public IActionResult GetPicture(string userId)
+        public IActionResult GetPicture()
         {
-            var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files", userId);
+            var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files", GetUserId());
             if (!System.IO.File.Exists(filepath))
             {
                 return File(System.IO.File.OpenRead("Upload\\Files\\default.jpg"), "image/jpeg");
@@ -44,24 +52,28 @@ namespace AccountService.Controllers
             return File(System.IO.File.OpenRead(filepath), "image/jpeg");
         }
 
+        //Add Avatar
         [HttpPost("UploadAva")]
-        public IActionResult UploadFile(IFormFile file, string userId, CancellationToken cancellationtoken)
+        public IActionResult UploadFile(IFormFile file, CancellationToken cancellationtoken)
         {
-            return Ok(_accountRepository.WriteFile(file, userId));
+            return Ok(_accountRepository.WriteFile(file, GetUserId()));
         }
 
+        //Delete Avatar
         [HttpDelete("DeleteAva")]
-        public IActionResult DeleteAvatar(string fileName)
+        public IActionResult DeleteAvatar()
         {
-            _accountRepository.DeleteAvatar(fileName);
+            _accountRepository.DeleteAvatar(GetUserId()+".jpg");
             return new OkResult();
         }
 
+        //Change Password
         [HttpPut("ChangePassword")]
-        public string ChangePassword (string userId, string oldPassword, string newPassword)
+        public IActionResult ChangePassword (string oldPassword, string newPassword)
         {
-            return _accountRepository.ChangePassword(userId, oldPassword, newPassword);
-            
+            var status = _accountRepository.ChangePassword(GetUserId(), oldPassword, newPassword);
+            _notificationRepository.AddPersonalNoti(GetUserId(), "Tài Khoản của bạn đã được thay đổi mật khẩu");
+            return new OkObjectResult(status);
         }
 
        

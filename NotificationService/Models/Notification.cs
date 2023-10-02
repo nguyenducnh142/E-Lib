@@ -5,9 +5,11 @@ namespace NotificationService.Models
     public class Notification
     {
         [Key]
-        public string NotificationId { get; set; }
-        public int NotificationTypeId { get; set; }
-        //NotificationType: 1=Subject, 2=Question
+        public int NotificationId { get; set; }
+        public string NotificationType { get; set; }
+        //NotificationType: subject/question
+        public DateTime DateTime { get; set; }
+        public string SubjectId { get; set; }
         public string NotificaitonDetail { get; set; }
     }
 }

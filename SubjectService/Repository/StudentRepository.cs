@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SubjectService.DBContexts;
 using SubjectService.Models;
+using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
 
 namespace SubjectService.Repository
 {
@@ -17,11 +19,24 @@ namespace SubjectService.Repository
         {
             _dbContext.SaveChanges();
         }
+        public string GetClass(string userId)
+        {
+            var userClass = _dbContext.StudentClasses.Where(e=>e.UserId==userId).FirstOrDefault();
+            if(userClass == null)
+            {
+                return null;
+            }
+            return userClass.ClassId;
+        }
 
         public async Task<IEnumerable<Subject>> GetSubjects(string classId)
         {
             var subjects = new List<Subject>();
             var subjectIds = _dbContext.SubjectClasses.Where(e=> e.ClassId==classId).ToList();
+            if(subjectIds == null)
+            {
+                return null;
+            }
             foreach (var subject in subjectIds)
             {
                 subjects.Add(_dbContext.Subjects.Find(subject.SubjectId));
@@ -34,6 +49,10 @@ namespace SubjectService.Repository
         {
             var subjects = new List<Subject>();
             var starSubjects = _dbContext.StarSubjects.Where(e => e.UserId==userId).ToList();
+            if(starSubjects == null)
+            {
+                return null;
+            }
             foreach(var starSubject in starSubjects)
             {
                 subjects.Add(_dbContext.Subjects.Find(starSubject.SubjectId));
@@ -42,12 +61,24 @@ namespace SubjectService.Repository
         }
 
 
-        public async Task<IEnumerable<Subject>> SearchSubjects(string searchInfo)
+        public IEnumerable<Subject> SearchSubjects(string searchInfo, string classId)
         {
-            return _dbContext.Subjects.Where(e => (
-            _dbContext.FuzzySearch(e.SubjectName) == _dbContext.FuzzySearch(searchInfo) |
-            _dbContext.FuzzySearch(e.TeacherName) == _dbContext.FuzzySearch(searchInfo)))
-                .ToList();
+            var subjectIds = _dbContext.SubjectClasses.Where(e => e.ClassId == classId).ToList();
+            if (subjectIds == null)
+            {
+                return null;
+            }
+            var subjects = new List<Subject>();
+            foreach (var subject in subjectIds)
+            {
+                var tmp = _dbContext.Subjects.Where(e => e.SubjectName == searchInfo && e.SubjectId == subject.SubjectId).FirstOrDefault();
+                if (tmp == null)
+                {
+                    continue;
+                }
+                subjects.Add(tmp);
+            }
+            return subjects;
         }
 
         public async Task<IEnumerable<Subject>> GetSubjectSorted(string classId)
@@ -133,5 +164,9 @@ namespace SubjectService.Repository
             return _dbContext.SubjectNotifications.Where(e => e.SubjectId == subjectId).ToList();
         }
 
+        public string GetSubjectId(string questionId)
+        {
+            return _dbContext.Questions.Find(questionId).SubjectId;
+        }
     }
 }

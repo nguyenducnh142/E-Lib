@@ -18,32 +18,13 @@ namespace AuthService.Repository
             _authContext = authContext;
         }
 
-        private readonly List<User> _users = new()
-        {
-        new("admin", "aDm1n", "leadership"),
-        new("user01", "u$3r01", "teacher")
-        };
 
-        public AuthenticationToken GenerateAuthToken(Login user, string role)
+
+        public AuthenticationToken GenerateAuthToken(Login user)
         {
-            User userLog;
-            switch (role)
-            {
-                case "leadership":
-                    userLog = _users.FirstOrDefault(u => u.UserId == user.UserId && u.Password == user.Password);
-                    break;
-                case "teacher":
-                    userLog = _users.FirstOrDefault(u => u.UserId == user.UserId && u.Password == user.Password);
-                    break;
-                case "student":
-                    userLog = _users.FirstOrDefault(u => u.UserId == user.UserId && u.Password == user.Password);
-                    break;
-                default:
-                    userLog = _users.FirstOrDefault(u => u.UserId == user.UserId && u.Password == user.Password);
-                    break;
-            }
-            
-            if (user is null)
+            var userLog = _authContext.Accounts.FirstOrDefault(u => u.UserId == user.UserId && u.Password == user.Password);
+
+            if (userLog is null)
             {
                 return null;
             }
@@ -55,7 +36,7 @@ namespace AuthService.Repository
             var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Name, userLog.UserId),
-            new Claim("Role", /*userLog.Role*/role)
+            new Claim("Role", userLog.Role)
         };
 
             var tokenOptions = new JwtSecurityToken(

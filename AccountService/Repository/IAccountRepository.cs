@@ -4,11 +4,10 @@ namespace AccountService.Repository
 {
     public interface IAccountRepository
     {
-        Account GetAccountDetail(string accountId);
-        void InsertAccount (Account account);
+        Account GetAccount(string userId);
 
-        string WriteFile(IFormFile file, string userId);
-        void DeleteAvatar(string fileName);
+        Task<string> WriteFile(IFormFile file, string userId);
+        Task DeleteAvatar(string fileName);
         string ChangePassword(string userId, string oldPassword, string newPassword);
     }
 }

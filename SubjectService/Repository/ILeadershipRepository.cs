@@ -5,6 +5,7 @@ namespace SubjectService.Repository
     public interface ILeadershipRepository
     {
         Task<IEnumerable<Subject>> GetSubjects();
+        string GetSubjectId(string lessonFileId);
         Task<IEnumerable<LessonFile>> GetLessonFilesNonAproved();
         Task<IEnumerable<LessonFile>> GetLessonFiles();
         Task AproveLessonFile(string lessonFileId);
@@ -13,5 +14,6 @@ namespace SubjectService.Repository
         Task<IEnumerable<Subject>> GetSubjectsNonAproved();
         Task<IEnumerable<Lesson>> GetLessons(string subjectId);
         Task InsertSubject(Subject subject);
+        void AddSubjectIntoClass(string subjectid, string classId);
     }
 }

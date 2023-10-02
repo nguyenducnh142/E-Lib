@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+//using SubjectService.Migrations;
 using SubjectService.Models;
 using SubjectService.Repository;
+using System.Security.Claims;
 using System.Transactions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,72 +15,86 @@ namespace SubjectService.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly NotificationService.Repository.INotificationRepository _notificationRepository;
 
-        public StudentController(IStudentRepository studentRepository)
+        public StudentController(IStudentRepository studentRepository, NotificationService.Repository.INotificationRepository notificationRepository = null)
         {
             _studentRepository = studentRepository;
+            _notificationRepository = notificationRepository;
+        }
+
+        //Get Current UserDetail
+        private string GetUserId()
+        {
+            string id = Convert.ToString(HttpContext.User.FindFirstValue("name"));
+            return id;
+        }
+        private string GetClass()
+        {
+            string userClass = _studentRepository.GetClass(GetUserId());
+            return userClass;
         }
 
 
-        //Get Subjects By Class
-        [HttpGet("/GetSubjects")]
-        public async Task<IActionResult> GetSubjects(string classId)
+        //Get Subjects 
+        [HttpGet("GetSubjects")]
+        public async Task<IActionResult> GetSubjects()
         {
-            var subjects = await _studentRepository.GetSubjects(classId);
+            var subjects = await _studentRepository.GetSubjects(GetClass());
             return new OkObjectResult(subjects);
         }
 
         //Get Star Subjects
-        [HttpGet("/GetStarSubjects")]
-        public async Task<IActionResult> GetStarSubjects(string userId)
+        [HttpGet("GetStarSubjects")]
+        public IActionResult GetStarSubjects()
         {
-            var subjects = await _studentRepository.GetStarSubjects( userId);
+            var subjects = _studentRepository.GetStarSubjects(GetUserId());
             return new OkObjectResult(subjects);
         }
 
         //Search Subject By SubjectName or TeacherName
-        [HttpGet("/SearchSubjects/{subjectName}")]
-        public async Task<IActionResult> GetByName(string searchInfo)
+        [HttpGet("SearchSubjects")]
+        public IActionResult GetByName(string searchInfo)
         {
-            var subject = await _studentRepository.SearchSubjects(searchInfo);
+            var subject = _studentRepository.SearchSubjects(searchInfo, GetClass());
             return new OkObjectResult(subject);
         }
 
         //Sort Subjects By Name
-        [HttpGet("/SortSubjects")]
-        public async Task<IActionResult> SubjectsSort(string classId)
+        [HttpGet("SortSubjects")]
+        public IActionResult SubjectsSort()
         {
-            var subjects = await _studentRepository.GetSubjectSorted(classId);
+            var subjects = _studentRepository.GetSubjectSorted(GetClass());
             return new OkObjectResult(subjects);
         }
 
         //Get Lessons By SubjectId
-        [HttpGet("/GetLessons/{subjectId}")]
-        public async Task<IActionResult> GetLessonList(string subjectId)
+        [HttpGet("GetLessons")]
+        public IActionResult GetLessonList(string subjectId)
         {
-            var lesson = await _studentRepository.GetLessons(subjectId);
+            var lesson = _studentRepository.GetLessons(subjectId);
             return new OkObjectResult(lesson);
         }
 
         //Get LessonFile By LessonId
-        [HttpGet("/GetLessonFiles/{lessonId}")]
-        public async Task<IActionResult> GetLessonFileList(string lessonId)
+        [HttpGet("GetLessonFilesByLesson")]
+        public IActionResult GetLessonFileList(string lessonId)
         {
-            var lessonFile = await _studentRepository.GetLessonFilesByLesson(lessonId);
+            var lessonFile = _studentRepository.GetLessonFilesByLesson(lessonId);
             return new OkObjectResult(lessonFile);
         }
 
         //Get LessonFile By SubjectId
-        [HttpGet("/GetLessonFiles/{subjectId}")]
-        public async Task<IActionResult> GetLessonFileListBySubject(string subjectId)
+        [HttpGet("GetLessonFilesBySubject")]
+        public IActionResult GetLessonFileListBySubject(string subjectId)
         {
-            var lessonFile = await _studentRepository.GetLessonFilesBySubject(subjectId);
+            var lessonFile = _studentRepository.GetLessonFilesBySubject(subjectId);
             return new OkObjectResult(lessonFile);
         }
 
-        //Downloead LessonFile
+        //Download LessonFile
         [HttpGet]
-        [Route("/DownloadFile")]
+        [Route("DownloadFile")]
         public async Task<IActionResult> DownloadFile(string fileName)
         {
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files", fileName);
@@ -95,79 +111,87 @@ namespace SubjectService.Controllers
 
 
         //Star Subject
-        [HttpPut("/StarSubject")]
-        public async Task<IActionResult> AproveLessonFile(string subjectId, string userId)
+        [HttpPut("StarSubject")]
+        public IActionResult AproveLessonFile(string subjectId)
         {
             using (var scope = new TransactionScope())
             {
-                await _studentRepository.StarSubject(subjectId, userId);
+                _studentRepository.StarSubject(subjectId, GetUserId());
                 scope.Complete();
                 return new OkResult();
             }
         }
 
         //Get Subject Description
-        [HttpGet("/GetSubjectDescription/{subjectId}")]
-        public async Task<IActionResult> GetSubjectDescription(string subjectId)
+        [HttpGet("GetSubjectDescription")]
+        public IActionResult GetSubjectDescription(string subjectId)
         {
-            var subjectDescription = await _studentRepository.GetSubjectDescription(subjectId);
+            var subjectDescription = _studentRepository.GetSubjectDescription(subjectId);
             return new OkObjectResult(subjectDescription);
         }
 
 
         //Get Questions By SubjectId
-        [HttpGet("/AllQuestion")]
-        public async Task<IActionResult> GetQuestionList(string subjectId)
+        [HttpGet("AllQuestion")]
+        public IActionResult GetQuestionList(string subjectId)
         {
-            var question = await _studentRepository.GetAllQuestion(subjectId);
+            var question = _studentRepository.GetAllQuestion(subjectId);
             return new OkObjectResult(question);
         }
 
         //Get Questions By LessionId
-        [HttpGet("/LessonQuestion")]
-        public async Task<IActionResult> GetLessonQuestionList(string subjectId, string lessonId)
+        [HttpGet("LessonQuestion")]
+        public IActionResult GetLessonQuestionList(string subjectId, string lessonId)
         {
-            var question = await _studentRepository.GetLessonQuestion(subjectId, lessonId);
+            var question = _studentRepository.GetLessonQuestion(subjectId, lessonId);
             return new OkObjectResult(question);
         }
 
-        //Get Answer By QuestionId
-        [HttpGet("/AllAnswer")]
-        public async Task<IActionResult> GetLessonQuestionList(string questionId)
+        //Get SubjectId by QuestionId
+        private string GetSubjectId(string questionId)
         {
-            var answer = await _studentRepository.GetAnswer(questionId);
+            return _studentRepository.GetSubjectId(questionId);
+        }
+
+        //Get Answer By QuestionId
+        [HttpGet("AllAnswer")]
+        public IActionResult GetLessonQuestionList(string questionId)
+        {
+            var answer = _studentRepository.GetAnswer(questionId);
             return new OkObjectResult(answer);
         }
 
         //Add Question
-        [HttpPost("/AddQuestion")]
-        public async Task<IActionResult> AddQuestion([FromBody] Question question)
+        [HttpPost("AddQuestion")]
+        public IActionResult AddQuestion([FromBody] Question question)
         {
             using (var scope = new TransactionScope())
             {
-                await _studentRepository.InsertQuestion(question);
+                _studentRepository.InsertQuestion(question);
+                _notificationRepository.AddNoti(question.SubjectId, "Môn học " + question.SubjectId + " có câu hỏi mới");
                 scope.Complete();
                 return CreatedAtAction(nameof(GetSubjects), new { id = question.LessonId }, question);
             }
         }
 
         //Add Answer
-        [HttpPost("/AddAnswer")]
+        [HttpPost("AddAnswer")]
         public async Task<IActionResult> AddAnswer([FromBody] Answer answer)
         {
             using (var scope = new TransactionScope())
             {
                 await _studentRepository.InsertAnswer(answer);
+                await _notificationRepository.AddNoti(GetSubjectId(answer.QuestionId), "Môn học " + GetSubjectId(answer.QuestionId) + " có câu trả lời mới");
                 scope.Complete();
                 return CreatedAtAction(nameof(GetSubjects), new { id = answer.AnswerId }, answer);
             }
         }
 
         //Get Subject Notifications
-        [HttpGet("/AllNotification")]
-        public async Task<IActionResult> GetSubjectNotification(string subjectId)
+        [HttpGet("SubjectNotification")]
+        public IActionResult GetSubjectNotification(string subjectId)
         {
-            var subjectNoti = await _studentRepository.GetSubjectNoti(subjectId);
+            var subjectNoti = _studentRepository.GetSubjectNoti(subjectId);
             return new OkObjectResult(subjectNoti);
         }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 using SystematicService.DbContexts;
 using SystematicService.Models;
 
@@ -12,61 +13,85 @@ namespace SystematicService.Repository
         {
             _dbContext = context;
         }
-
-        public void AddAccount(Account account)
+        private void Save()
         {
-            _dbContext.Add(account);
             _dbContext.SaveChanges();
         }
 
-        public void AddSystemInfo(SystemInfo systemInfo)
+
+        public async Task AddSystemInfo(SystemInfo systemInfo)
         {
             _dbContext.Add(systemInfo);
-            _dbContext.SaveChanges();
+            Save();
         }
 
-        public void ChangeRole(string userId, int role)
+        public async Task ChangeRole(string userId, string role)
         {
-            var account = _dbContext.Accounts.Find(userId);
-            account.Role= role;
-            _dbContext.SaveChanges();
+            _dbContext.Accounts.Find(userId).Role = role;
+            Save();
         }
 
-        public void DeleteUser(string userId)
+        public async Task DeleteUser(string userId)
         {
-            var account = _dbContext.Accounts.Find(userId);
-            _dbContext.Remove(account);
-            _dbContext.SaveChanges();
+            _dbContext.Remove(_dbContext.Accounts.Find(userId));
+            Save();
         }
 
-        public IEnumerable<Account> GetAllAccount()
-        {
-            return _dbContext.Accounts.ToList();
-        }
 
-        public SystemInfo GetSystemInfo()
+        public async Task<SystemInfo> GetSystemInfo()
         {
             return _dbContext.SystemInfos.Find("system");
         }
 
-        public IEnumerable<Account> GetUserByName(string userName)
+        public async Task<IEnumerable<Account>> GetUserByName(string userName)
         {
             return _dbContext.Accounts.Where(e => (
             _dbContext.FuzzySearch(e.UserName) == _dbContext.FuzzySearch(userName)))
                 .ToList();
         }
 
-        public IEnumerable<Account> GetUserByRole(int role)
+        public async Task<IEnumerable<Account>> GetUsers()
         {
-            return _dbContext.Accounts.Where(e => e.Role==role).ToList();
+            return _dbContext.Accounts.ToList();
         }
 
-        public void UpdateSystemInfo(SystemInfo systemInfo)
+        public async Task<IEnumerable<Account>> GetLeaderships()
+        {
+            return _dbContext.Accounts.Where(e=> e.Role=="leadership").ToList();
+        }
+        public async Task<IEnumerable<Account>> GetTeachers()
+        {
+            return _dbContext.Accounts.Where(e => e.Role == "teacher").ToList();
+        }
+        public async Task<IEnumerable<Account>> GetStudents()
+        {
+            return _dbContext.Accounts.Where(e => e.Role == "student").ToList();
+        }
+
+        public async Task UpdateSystemInfo(SystemInfo systemInfo)
         {
             _dbContext.Entry(systemInfo).State = EntityState.Modified;
-            _dbContext.SaveChanges();
+            Save();
         }
 
+        public async Task AddUser(Account account)
+        {
+            _dbContext.Add(account);
+            Save();
+        }
 
+        public async Task AddStudentIntoClass(string userId, string classId)
+        {
+            var tmp = _dbContext.StudentClasses.Where(e => e.UserId == userId && e.ClassId==classId).FirstOrDefault();
+            if (tmp == null)
+            {
+                var studentClass = new StudentClass();
+                studentClass.UserId = userId;
+                studentClass.ClassId = classId;
+                _dbContext.Add(studentClass);
+                Save();
+            }
+
+        }
     }
 }
