@@ -4,9 +4,9 @@ namespace NotificationService.Repository
 {
     public interface IStudentRepository
     {
-        Task<IEnumerable<Notification>> FindNoti(string notiDetail, string userId);
-        Task<IEnumerable<UserNotification>> GetAccountNoti(string userId);
-        Task<IEnumerable<Notification>> GetQuestionNoti(string userId);
-        Task<IEnumerable<Notification>> GetSubjectNoti(string userId);
+        IEnumerable<Notification> FindNoti(string notiDetail, string userId);
+        IEnumerable<UserNotification> GetAccountNoti(string userId);
+        IEnumerable<Notification> GetQuestionNoti(string userId);
+        IEnumerable<Notification> GetSubjectNoti(string userId);
     }
 }

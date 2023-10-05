@@ -11,7 +11,7 @@ namespace NotificationService.Repository
             _dbContext = notificationContext;
         }
 
-        public async Task<IEnumerable<Notification>> FindNoti(string notiDetail, string userId)
+        public IEnumerable<Notification> FindNoti(string notiDetail, string userId)
         {
             var studentClass = _dbContext.studentClasses.Where(e => e.UserId == userId).FirstOrDefault();
             if (studentClass != null)
@@ -27,12 +27,12 @@ namespace NotificationService.Repository
             return null;
         }
 
-        public async Task<IEnumerable<UserNotification>> GetAccountNoti(string userId)
+        public IEnumerable<UserNotification> GetAccountNoti(string userId)
         {
             return _dbContext.UserNotifications.Where(e=>e.UserId==userId).ToList();
         }
 
-        public async Task<IEnumerable<Notification>> GetQuestionNoti(string userId)
+        public IEnumerable<Notification> GetQuestionNoti(string userId)
         {
             var studentClass = _dbContext.studentClasses.Where(e => e.UserId == userId).FirstOrDefault();
             if (studentClass != null)
@@ -48,7 +48,7 @@ namespace NotificationService.Repository
             return null;
         }
 
-        public async Task<IEnumerable<Notification>> GetSubjectNoti(string userId)
+        public IEnumerable<Notification> GetSubjectNoti(string userId)
         {
             var studentClass = _dbContext.studentClasses.Where(e=>e.UserId == userId).FirstOrDefault();
             if (studentClass != null)

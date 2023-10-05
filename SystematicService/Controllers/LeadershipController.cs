@@ -21,110 +21,96 @@ namespace SystematicService.Controllers
 
 
         //Get System Info
-        [HttpGet("/GetSystematicInfo")]
-        public async Task<IActionResult> GetSystematicInfo()
+        [HttpGet("GetSystematicInfo")]
+        public IActionResult GetSystematicInfo()
         {
-            var systemInfo = await _leadershipRepository.GetSystemInfo();
+            var systemInfo = _leadershipRepository.GetSystemInfo();
             return new OkObjectResult(systemInfo);
         }
 
         //Add SystemInfo
-        [HttpPost("/InsertSystematicInfo")]
-        public async Task<IActionResult> AddSystematicInfo(SystemInfo systemInfo)
+        [HttpPost("InsertSystematicInfo")]
+        public IActionResult AddSystematicInfo(SystemInfo systemInfo)
         {
             systemInfo.SystemId = "system";
-            await _leadershipRepository.AddSystemInfo(systemInfo);
+            _leadershipRepository.AddSystemInfo(systemInfo);
             return new OkObjectResult(systemInfo);
         }
 
         //Change System Info
-        [HttpPut("/UpdateSystematicInfo")]
-        public async Task<IActionResult> UpdateSystematicInfo([FromBody]SystemInfo systemInfo)
+        [HttpPut("UpdateSystematicInfo")]
+        public IActionResult UpdateSystematicInfo([FromBody]SystemInfo systemInfo)
         {
             systemInfo.SystemId = "system";
-            await _leadershipRepository.UpdateSystemInfo(systemInfo);
+            _leadershipRepository.UpdateSystemInfo(systemInfo);
             return new OkObjectResult(systemInfo);
         }
 
 
         //Search User By Name
-        [HttpGet("/GetUserByName/{userName}")]
-        public async Task<IActionResult> GetUserByName(string userName)
+        [HttpGet("GetUserByName")]
+        public IActionResult GetUserByName(string userName)
         {
-            var user = await _leadershipRepository.GetUserByName(userName);
+            var user = _leadershipRepository.GetUserByName(userName);
             return new OkObjectResult(user);
         }
 
 
 
         //Add User
-        [HttpPost("/AddUser")]
-        public async Task<IActionResult> AddUser(Account account)
+        [HttpPost("AddUser")]
+        public IActionResult AddUser(Account account)
         {
-            await _leadershipRepository.AddUser(account);
+            _leadershipRepository.AddUser(account);
             return new OkObjectResult(account);
         }
         
 
         //Change Role
-        [HttpPut("/ChangeUserRole")]
-        public async Task<IActionResult> ChangeRole(string userId, string role)
+        [HttpPut("ChangeUserRole")]
+        public IActionResult ChangeRole(string userId, string role)
         {
-            await _leadershipRepository.ChangeRole(userId, role);
+            _leadershipRepository.ChangeRole(userId, role);
             return new OkObjectResult(userId);
         }
 
         //Delete User
-        [HttpDelete("/DeleteUser")]
-        public async Task<IActionResult> DeleteUser(string userId) 
+        [HttpDelete("DeleteUser")]
+        public IActionResult DeleteUser(string userId) 
         {
-            await _leadershipRepository.DeleteUser(userId);
+            _leadershipRepository.DeleteUser(userId);
             return new OkObjectResult(userId);
         }
 
         //Get Users By Role
-        [HttpGet("/GetUserByRole/{role}")]
-        public async Task<IActionResult> GetUsersByRole(string role)
+        [HttpGet("GetUserByRole")]
+        public IActionResult GetUsersByRole(string role)
         {
             switch (role)
             {
-                case "leadership": return new OkObjectResult(GetLeaderships());
-                case "teacher": return new OkObjectResult(GetTeachers());
-                case "student": return new OkObjectResult(GetStudents());
+                case "leadership":
+                    return new OkObjectResult(_leadershipRepository.GetLeaderships());
+                case "teacher":
+                    return new OkObjectResult(_leadershipRepository.GetTeachers());
+                case "student":
+                    return new OkObjectResult( _leadershipRepository.GetStudents());
                 default: return new OkObjectResult("Wrong Role");
             }
         }
 
         //Get All User
-        [HttpGet("/GetUsers")]
-        public async Task<IActionResult> GetUsers()
+        [HttpGet("GetUsers")]
+        public IActionResult GetUsers()
         {
-            var accounts = await _leadershipRepository.GetUsers();
+            var accounts = _leadershipRepository.GetUsers();
             return new OkObjectResult(accounts);
         }
 
-        [HttpGet("/GetLeaderships")]
-        public async Task<IActionResult> GetLeaderships()
-        {
-            var accounts = await _leadershipRepository.GetLeaderships();
-            return new OkObjectResult(accounts);
-        }
-        [HttpGet("/GetTeachers")]
-        public async Task<IActionResult> GetTeachers()
-        {
-            var accounts = await _leadershipRepository.GetTeachers();
-            return new OkObjectResult(accounts);
-        }
-        [HttpGet("/GetStudents")]
-        public async Task<IActionResult> GetStudents()
-        {
-            var accounts = await _leadershipRepository.GetStudents();
-            return new OkObjectResult(accounts);
-        }
+        
 
         //Add Student Into Class
-        [HttpPut("/AddStudentIntoClass")]
-        public async Task<IActionResult> AddStudentIntoClass(string userId, string classId)
+        [HttpPut("AddStudentIntoClass")]
+        public IActionResult AddStudentIntoClass(string userId, string classId)
         {
             _leadershipRepository.AddStudentIntoClass(userId, classId);
             return new OkObjectResult(true);

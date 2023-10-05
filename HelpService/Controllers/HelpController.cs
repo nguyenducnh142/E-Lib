@@ -16,11 +16,11 @@ namespace HelpService.Controllers
         }
 
 
-        [HttpPut("/SendHelp")]
-        public async Task SendEmail([FromBody]string helpDetail)
+        [HttpPut("SendHelp")]
+        public void SendEmail([FromBody]string helpDetail)
         {
             var message = new Message(new string[] { "nguyenducnhat142@gmail.com" }, "Trợ giúp E-Lib", helpDetail);
-            await _helpRepository.SendEmail(message);
+            _helpRepository.SendEmail(message);
         }
     }
 }

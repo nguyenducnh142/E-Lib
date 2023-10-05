@@ -44,10 +44,10 @@ namespace FileService.Repository
             File.Delete(exactpath);
         }
 
-        public async Task<IEnumerable<PersonalFile>> GetAllFile(string userId)
+        public IEnumerable<PersonalFile> GetAllFile(string userId)
         {
-            var files = _dbContext.PersonalFiles.Where(e=> e.UserId==userId).ToList();
-            return files;
+            return _dbContext.PersonalFiles.Where(e => e.UserId == userId).ToList();
+
         }
 
         public async Task<IEnumerable<PersonalFile>> GetFileByName(string userId, string fileName)
@@ -62,15 +62,13 @@ namespace FileService.Repository
 
         public async Task WriteFile(IFormFile file,string userId, string fileName, string subJectId, string fileId)
         {
-            var personalFile = new PersonalFile()
-            {
-                FileId = fileId,
-                FileName = fileName,
-                SubjectId = subJectId,
-                DateTime = DateTime.Now,
-                Size = file.Length,
-                UserId = userId
-            };
+            var personalFile = new PersonalFile();
+            personalFile.FileId = fileId;
+            personalFile.FileName = fileName;
+            personalFile.SubjectId = subJectId;
+            personalFile.DateTime = DateTime.Now;
+            personalFile.Size = file.Length;
+            personalFile.UserId = userId;   
             _dbContext.Add(personalFile);
             Save();
             string filename = "";

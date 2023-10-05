@@ -1250,6 +1250,579 @@
       "RouteClaimsRequirement": {
         "Role": "leadership"
       }
+    },
+    //========================Notification========================
+    //=============Student============
+    //Get Subjects's Noti
+    {
+      "DownstreamPathTemplate": "/api/Student/GetSubjectNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/GetSubjectNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Get Questions's Noti
+    {
+      "DownstreamPathTemplate": "/api/Student/GetQuestionNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/GetQuestionNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Get Account's Noti
+    {
+      "DownstreamPathTemplate": "/api/Student/GetAccountNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/GetAccountNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //Search Noti
+    {
+      "DownstreamPathTemplate": "/api/Student/SearchNotification",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Student/SearchNotification",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "student"
+      }
+    },
+    //=============Leadership============
+    //Get Subjects's Noti
+    {
+      "DownstreamPathTemplate": "/api/Notification/GetSubjectNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetSubjectNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get Question's Noti
+    {
+      "DownstreamPathTemplate": "/api/Notification/GetQuestionNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetQuestionNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get Account's Noti
+    {
+      "DownstreamPathTemplate": "/api/Notification/GetAccountNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetAccountNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Search Noti
+    {
+      "DownstreamPathTemplate": "/api/Notification/SearchNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/SearchNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Delete Noti
+    {
+      "DownstreamPathTemplate": "/api/Notification/DeleteNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/DeleteNoti",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //=============Teacher============
+    //Get Subjects's Noti
+    {
+      "DownstreamPathTemplate": "/api/Notification/GetSubjectNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetSubjectNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Get Question's Noti
+    {
+      "DownstreamPathTemplate": "/api/Notification/GetQuestionNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetQuestionNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Get Account's Noti
+    {
+      "DownstreamPathTemplate": "/api/Notification/GetAccountNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/GetAccountNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //Search Noti
+    {
+      "DownstreamPathTemplate": "/api/Notification/SearchNoti",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7079
+        }
+      ],
+      "UpstreamPathTemplate": "/Teacher/SearchNoti",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "teacher"
+      }
+    },
+    //========================Help========================
+    {
+      "DownstreamPathTemplate": "/api/Help/SendHelp",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7295
+        }
+      ],
+      "UpstreamPathTemplate": "/Help",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+
+    //========================System========================
+    //=============Leadership============
+    //Get System
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetSystematicInfo",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7167
+        }
+      ],
+      "UpstreamPathTemplate": "/GetSystematicInfo",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Change System Info
+    {
+      "DownstreamPathTemplate": "/api/Leadership/UpdateSystematicInfo",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7167
+        }
+      ],
+      "UpstreamPathTemplate": "/UpdateSystematicInfo",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Search User
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetUserByName",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7167
+        }
+      ],
+      "UpstreamPathTemplate": "/GetUserByName",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Add User
+    {
+      "DownstreamPathTemplate": "/api/Leadership/AddUser",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7167
+        }
+      ],
+      "UpstreamPathTemplate": "/AddUser",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Change Role
+    {
+      "DownstreamPathTemplate": "/api/Leadership/ChangeUserRole",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7167
+        }
+      ],
+      "UpstreamPathTemplate": "/ChangeUserRole",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Delete User
+    {
+      "DownstreamPathTemplate": "/api/Leadership/DeleteUser",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7167
+        }
+      ],
+      "UpstreamPathTemplate": "/DeleteUser",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get User By Role
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetUserByRole",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7167
+        }
+      ],
+      "UpstreamPathTemplate": "/GetUserByRole",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get Users
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetUsers",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7167
+        }
+      ],
+      "UpstreamPathTemplate": "/GetUsers",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Add Student Into Class
+    {
+      "DownstreamPathTemplate": "/api/Leadership/AddStudentIntoClass",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7167
+        }
+      ],
+      "UpstreamPathTemplate": "/AddStudentIntoClass",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //========================File========================
+    //=============Leadership============
+    //Delete File
+    {
+      "DownstreamPathTemplate": "/api/Leadership/DeleteFile",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7274
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/DeleteFile",
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Change File Name
+    {
+      "DownstreamPathTemplate": "/api/Leadership/ChangeFileName",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7274
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/ChangeFileName",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Add File
+    {
+      "DownstreamPathTemplate": "/api/Leadership/UploadFile",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7274
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/UploadFile",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get Files
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetAllFile",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7274
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetAllFile",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Search Files
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetFileByName",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7274
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetFileByName",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Get Files By Subject
+    {
+      "DownstreamPathTemplate": "/api/Leadership/GetFileBySubject",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7274
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/GetFileBySubject",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
+    },
+    //Download File
+    {
+      "DownstreamPathTemplate": "/api/Leadership/DownloadFile",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7274
+        }
+      ],
+      "UpstreamPathTemplate": "/Leadership/DownloadFile",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "Role": "leadership"
+      }
     }
   ],
   //====================================Aggregates======================

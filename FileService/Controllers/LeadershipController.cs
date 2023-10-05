@@ -26,22 +26,22 @@ namespace FileService.Controllers
         }
 
         //Delete File
-        [HttpDelete("/DeleteFile/{fileId}")]
-        public async Task<IActionResult> DeleteFile(string fileId)
+        [HttpDelete("DeleteFile")]
+        public IActionResult DeleteFile(string fileId)
         {
-            await _leadershipRepository.DeleteFile(fileId);
+            _leadershipRepository.DeleteFile(fileId);
             return new OkResult();
         }
 
         //Change File Name
-        [HttpPut("/ChangeFileName")]
-        public async Task<IActionResult> UpdateFileName([FromBody] string fileName, string fileId)
+        [HttpPut("ChangeFileName")]
+        public IActionResult UpdateFileName(string fileName, string fileId)
         {
             if (fileName != null && fileId != null)
             {
                 using (var scope = new TransactionScope())
                 {
-                    await _leadershipRepository.ChangeFileName(fileName, fileId);
+                    _leadershipRepository.ChangeFileName(fileName, fileId);
                     scope.Complete();
                     return new OkResult();
                 }
@@ -51,41 +51,41 @@ namespace FileService.Controllers
 
 
         //Add File
-        [HttpPost("/UploadFile")]
-        public async Task<IActionResult> UploadFile(IFormFile file,string userId, string fileId, string fileName, string subjectId, CancellationToken cancellationtoken)
+        [HttpPost("UploadFile")]
+        public IActionResult UploadFile(IFormFile file,string userId, string fileId, string fileName, string subjectId, CancellationToken cancellationtoken)
         {
-            await _leadershipRepository.WriteFile(file, userId, fileName, subjectId, fileId);
+            _leadershipRepository.WriteFile(file, userId, fileName, subjectId, fileId);
             return new OkObjectResult(fileName);
         }
 
         //Get All File 
-        [HttpGet("/GetAllFile")]
-        public async Task<IActionResult> GetAllFile()
+        [HttpGet("GetAllFile")]
+        public IActionResult GetAllFile()
         {
-            var file = await _leadershipRepository.GetAllFile(GetUserId());
-            return new OkObjectResult(file);
+            var files = _leadershipRepository.GetAllFile(GetUserId());
+            return new OkObjectResult(files);
         }
 
         //Search File By FileName
-        [HttpGet("/GetFileByName/{fileName}")]
-        public async Task<IActionResult> GetFileByName( string fileName)
+        [HttpGet("GetFileByName")]
+        public IActionResult GetFileByName( string fileName)
         {
-            var file = await _leadershipRepository.GetFileByName(GetUserId(), fileName);
+            var file = _leadershipRepository.GetFileByName(GetUserId(), fileName);
             return new OkObjectResult(file);
         }
 
 
         //Search File By SubjectId
-        [HttpGet("/GetFileBySubject/{subjectId}")]
-        public async Task<IActionResult> GetFileBySubject( string subjectId)
+        [HttpGet("GetFileBySubject")]
+        public IActionResult GetFileBySubject( string subjectId)
         {
-            var file = await _leadershipRepository.GetFileBySubject(GetUserId(), subjectId);
+            var file = _leadershipRepository.GetFileBySubject(GetUserId(), subjectId);
             return new OkObjectResult(file);
         }
 
         //Download File (fileId = fileId+.filetype)
         [HttpGet]
-        [Route("/DownloadFile/{fileId}")]
+        [Route("DownloadFile")]
         public async Task<IActionResult> DownloadFile(string fileId)
         {
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Files", fileId);

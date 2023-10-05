@@ -168,7 +168,7 @@ namespace SubjectService.Controllers
             using (var scope = new TransactionScope())
             {
                 _studentRepository.InsertQuestion(question);
-                _notificationRepository.AddNoti(question.SubjectId, "Môn học " + question.SubjectId + " có câu hỏi mới");
+                _notificationRepository.AddQuestionNoti(question.SubjectId, "Môn học " + question.SubjectId + " có câu hỏi mới");
                 scope.Complete();
                 return CreatedAtAction(nameof(GetSubjects), new { id = question.LessonId }, question);
             }
@@ -181,7 +181,7 @@ namespace SubjectService.Controllers
             using (var scope = new TransactionScope())
             {
                 await _studentRepository.InsertAnswer(answer);
-                await _notificationRepository.AddNoti(GetSubjectId(answer.QuestionId), "Môn học " + GetSubjectId(answer.QuestionId) + " có câu trả lời mới");
+                await _notificationRepository.AddQuestionNoti(GetSubjectId(answer.QuestionId), "Môn học " + GetSubjectId(answer.QuestionId) + " có câu trả lời mới");
                 scope.Complete();
                 return CreatedAtAction(nameof(GetSubjects), new { id = answer.AnswerId }, answer);
             }

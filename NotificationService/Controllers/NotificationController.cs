@@ -25,57 +25,44 @@ namespace NotificationService.Controllers
         }
 
         //Get Subjects Noti
-        [HttpGet("/GetSubjectNoti")]
-        public async Task<IActionResult> GetSubjectNoti()
+        [HttpGet("GetSubjectNoti")]
+        public IActionResult GetSubjectNoti()
         {
-            var noti = await _notificationRepository.GetSubjectNoti();
+            var noti = _notificationRepository.GetSubjectNoti();
             return new OkObjectResult(noti);
         }
 
         //Get Questions Noti
-        [HttpGet("/GetQuestionNoti")]
-        public async Task<IActionResult> GetQuestionNoti()
+        [HttpGet("GetQuestionNoti")]
+        public IActionResult GetQuestionNoti()
         {
-            var noti = await _notificationRepository.GetQuestionNoti();
+            var noti = _notificationRepository.GetQuestionNoti();
             return new OkObjectResult(noti);
         }
 
         //Get Account Noti
-        [HttpGet("/GetAccountNoti")]
-        public async Task<IActionResult> GetAccountNoti()
+        [HttpGet("GetAccountNoti")]
+        public  IActionResult   GetAccountNoti()
         {
-            var noti = await _notificationRepository.GetAccountNoti(GetUserId());
+            var noti = _notificationRepository.GetAccountNoti(GetUserId());
             return new OkObjectResult(noti);
         }
 
         //Search Notis
-        [HttpGet("/SearchNoti/{notiDetail}")]
-        public async Task<IActionResult> FindNotiByDetail(string notiDetail)
+        [HttpGet("SearchNoti")]
+        public IActionResult FindNotiByDetail(string notiDetail)
         {
-            var notis = await _notificationRepository.FindNoti(notiDetail);
+            var notis = _notificationRepository.FindNoti(notiDetail);
             return new OkObjectResult(notis);
         }
 
 
-        //Add Noti (System)
-        [HttpPost("/AddNoti")]
-        public async Task<IActionResult> AddNoti(string subjectId, string notiDetail)
-        {
-            await _notificationRepository.AddNoti(subjectId, notiDetail);
-            return new OkObjectResult(subjectId);
-        }
-        [HttpPost("/AddUserNoti")]
-        public async Task<IActionResult> AddPersonalNoti(string userId, string notiDetail)
-        {
-            await _notificationRepository.AddPersonalNoti(userId, notiDetail);
-            return new OkObjectResult(userId);
-        }
-
+        
         //Delete Noti
-        [HttpDelete("/DeleteNoti")]
-        public async Task<IActionResult> DeleteNoti(int notiId)
+        [HttpDelete("DeleteNoti")]
+        public IActionResult DeleteNoti(int notiId)
         {
-            await _notificationRepository.DeleteNoti(notiId);
+            _notificationRepository.DeleteNoti(notiId);
             return new OkObjectResult(notiId);
         }
 

@@ -6,7 +6,7 @@ namespace FileService.Repository
     {
         Task ChangeFileName(string fileName, string fileId);
         Task DeleteFile(string fileId);
-        Task<IEnumerable<PersonalFile>> GetAllFile(string userId);
+        IEnumerable<PersonalFile> GetAllFile(string userId);
         Task<IEnumerable<PersonalFile>> GetFileByName(string userId, string fileName);
         Task<IEnumerable<PersonalFile>> GetFileBySubject(string userId, string subjectId);
         Task WriteFile(IFormFile file, string userId, string fileName, string subjectId, string fileId);

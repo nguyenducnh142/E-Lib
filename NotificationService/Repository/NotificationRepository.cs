@@ -27,6 +27,17 @@ namespace NotificationService.Repository
             await Save();
         }
 
+        public async Task AddQuestionNoti(string subjectId, string notiDetail)
+        {
+            var noti = new Notification();
+            noti.SubjectId = subjectId;
+            noti.NotificaitonDetail = notiDetail;
+            noti.NotificationType = "question";
+            noti.DateTime = DateTime.Now;
+            _notificationContext.Add(noti);
+            await Save();
+        }
+
         public async Task AddPersonalNoti(string userId, string notiDetail)
         {
             var noti = new UserNotification();

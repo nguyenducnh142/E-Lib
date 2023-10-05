@@ -9,14 +9,12 @@ namespace NotificationService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentNotificationController : ControllerBase
+    public class StudentController : ControllerBase
     {
-        private readonly INotificationRepository _notificationRepository;
         private readonly IStudentRepository _studentRepository;
 
-        public StudentNotificationController(INotificationRepository notificationRepository, IStudentRepository studentRepository)
+        public StudentController( IStudentRepository studentRepository)
         {
-            _notificationRepository = notificationRepository;
             _studentRepository = studentRepository;
         }
         //Get Current UserDetail
@@ -28,10 +26,10 @@ namespace NotificationService.Controllers
 
         //Get Subjects Noti
         [HttpGet("GetSubjectNoti")]
-        public async Task<IActionResult> GetSubjectNoti()
+        public IActionResult GetSubjectNoti()
         {
-            var noti = await _studentRepository.GetSubjectNoti(GetUserId());
-            return new OkObjectResult(noti);
+            var notis = _studentRepository.GetSubjectNoti(GetUserId());
+            return new OkObjectResult(notis);
         }
 
         //Get Questions Noti
@@ -51,7 +49,7 @@ namespace NotificationService.Controllers
         }
 
         //Search Noti
-        [HttpGet("SearchNotification/{notiDetail}")]
+        [HttpGet("SearchNotification")]
         public IActionResult FindNotiByDetail(string notiDetail)
         {
             var noti = _studentRepository.FindNoti(notiDetail, GetUserId());
